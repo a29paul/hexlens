@@ -1,0 +1,296 @@
+import Foundation
+import Combine
+import os
+
+/// Central state manager for the entire app. Coordinates between
+/// GameDetector, LCUClient, and LiveGameClient. Drives all UI state.
+///
+/// State machine:
+///   IDLE → LOBBY → CHAMP_SELECT → LOADING → IN_GAME → POST_GAME → IDLE
+class GameStateManager: ObservableObject {
+    @Published var state: GameLifecycleState = .idle
+    @Published var currentCS: Int = 0
+    @Published var csBenchmarkDiff: Int = 0
+    @Published var playerRole: PlayerRole = .unknown
+    @Published var jungleTimers: [JungleTimer] = GameStateManager.defaultTimers()
+    @Published var enemySpells: [EnemySpellState] = []
+    @Published var champSelectSession: ChampSelectSession?
+    @Published var activePlayerName: String = ""
+
+    private let logger = Logger(subsystem: "com.macleagueoverlay", category: "GameState")
+    private var gameDetector: GameDetector?
+    private var lcuClient: LCUClient?
+    private var liveGameClient: LiveGameClient?
+    private var timerEngine: TimerEngine?
+    private var spellTracker: SpellTracker?
+    private var pollTimer: Timer?
+    private var cancellables = Set<AnyCancellable>()
+
+    func start() {
+        gameDetector = GameDetector()
+        timerEngine = TimerEngine()
+        spellTracker = SpellTracker()
+
+        // Wire spell tracker to update enemy spell cooldowns
+        spellTracker?.onSpellUsed = { [weak self] enemyIndex, spellIndex in
+            self?.markSpellUsed(enemyIndex: enemyIndex, spellIndex: spellIndex)
+        }
+
+        gameDetector?.onProcessFound = { [weak self] lockfileData in
+            self?.handleProcessFound(lockfileData)
+        }
+        gameDetector?.onProcessLost = { [weak self] in
+            self?.transitionTo(.idle)
+        }
+
+        gameDetector?.startWatching()
+
+        // Load data sources
+        Task {
+            await DataDragon.shared.load()
+            await PatchDataService.shared.load()
+        }
+
+        logger.info("GameStateManager started, watching for LoL process")
+    }
+
+    // MARK: - State Transitions
+
+    func transitionTo(_ newState: GameLifecycleState) {
+        let oldState = state
+        guard isValidTransition(from: oldState, to: newState) else {
+            logger.warning("Invalid transition: \(oldState.rawValue) → \(newState.rawValue)")
+            return
+        }
+
+        logger.info("State: \(oldState.rawValue) → \(newState.rawValue)")
+        state = newState
+
+        switch newState {
+        case .idle:
+            cleanup()
+        case .lobby:
+            break
+        case .champSelect:
+            break
+        case .loading:
+            startLiveGamePolling()
+        case .inGame:
+            spellTracker?.start()
+        case .postGame:
+            stopLiveGamePolling()
+            // Return to idle after 3 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                self?.transitionTo(.idle)
+            }
+        }
+    }
+
+    private func isValidTransition(from: GameLifecycleState, to: GameLifecycleState) -> Bool {
+        switch (from, to) {
+        case (.idle, .lobby), (.idle, .idle): return true
+        case (.lobby, .champSelect), (.lobby, .idle): return true
+        case (.champSelect, .loading), (.champSelect, .lobby), (.champSelect, .idle): return true
+        case (.loading, .inGame), (.loading, .idle): return true
+        case (.inGame, .postGame), (.inGame, .idle): return true
+        case (.postGame, .idle), (.postGame, .lobby): return true
+        default: return false
+        }
+    }
+
+    // MARK: - Process Detection
+
+    private func handleProcessFound(_ lockfileData: LockfileData) {
+        logger.info("LoL process found, connecting to LCU on port \(lockfileData.port)")
+        transitionTo(.lobby)
+
+        lcuClient = LCUClient(lockfileData: lockfileData)
+        lcuClient?.onChampSelect = { [weak self] session in
+            DispatchQueue.main.async {
+                self?.champSelectSession = session
+                if self?.state == .lobby {
+                    self?.transitionTo(.champSelect)
+                }
+            }
+        }
+        lcuClient?.onChampSelectEnd = { [weak self] in
+            DispatchQueue.main.async {
+                if self?.state == .champSelect {
+                    self?.transitionTo(.loading)
+                }
+            }
+        }
+        lcuClient?.onDodge = { [weak self] in
+            DispatchQueue.main.async {
+                if self?.state == .champSelect {
+                    self?.transitionTo(.lobby)
+                }
+            }
+        }
+        lcuClient?.connect()
+    }
+
+    // MARK: - Live Game Polling
+
+    private func startLiveGamePolling() {
+        liveGameClient = LiveGameClient()
+        pollTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.pollLiveGame()
+        }
+    }
+
+    private func stopLiveGamePolling() {
+        pollTimer?.invalidate()
+        pollTimer = nil
+        liveGameClient = nil
+    }
+
+    private var consecutiveFailures = 0
+    private var backoffInterval: TimeInterval = 1.0
+
+    private func pollLiveGame() {
+        liveGameClient?.fetchAllGameData { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    self?.consecutiveFailures = 0
+                    self?.backoffInterval = 1.0
+                    self?.processLiveGameData(data)
+                    if self?.state == .loading {
+                        self?.transitionTo(.inGame)
+                    }
+                case .failure(let error):
+                    self?.handlePollFailure(error)
+                }
+            }
+        }
+    }
+
+    private func handlePollFailure(_ error: Error) {
+        consecutiveFailures += 1
+        if consecutiveFailures >= 3 {
+            backoffInterval = min(backoffInterval * 2, 10.0)
+            pollTimer?.invalidate()
+            pollTimer = Timer.scheduledTimer(withTimeInterval: backoffInterval, repeats: true) { [weak self] _ in
+                self?.pollLiveGame()
+            }
+        }
+        logger.warning("Live game poll failed (\(self.consecutiveFailures)x): \(error.localizedDescription)")
+    }
+
+    // MARK: - Data Processing
+
+    private func processLiveGameData(_ data: LiveGameAllData) {
+        // Find active player
+        activePlayerName = data.activePlayer.summonerName
+        let me = data.allPlayers.first { $0.summonerName == activePlayerName }
+
+        // CS + benchmark
+        currentCS = me?.scores.creepScore ?? 0
+        let gameMinutes = Int(data.gameData.gameTime / 60)
+        if gameMinutes > 0 {
+            let benchmark = PatchDataService.shared.getCSBenchmark(role: playerRole, gameTimeMinutes: gameMinutes)
+            csBenchmarkDiff = currentCS - Int(benchmark)
+        }
+
+        // Role detection
+        if let position = me?.position {
+            playerRole = PlayerRole(rawValue: position.lowercased()) ?? .unknown
+        }
+
+        // Process events for timers
+        timerEngine?.processEvents(data.events.Events, gameTime: data.gameData.gameTime)
+        jungleTimers = timerEngine?.timers ?? GameStateManager.defaultTimers()
+
+        // Build enemy spell states
+        let enemies = data.allPlayers.filter { $0.team != (me?.team ?? "") }
+        enemySpells = enemies.prefix(5).map { enemy in
+            let existing = self.enemySpells.first { $0.championName == enemy.championName }
+            return EnemySpellState(
+                id: enemy.championName,
+                championName: enemy.championName,
+                spell1: existing?.spell1 ?? SpellCooldownState(
+                    spellName: enemy.summonerSpells.summonerSpellOne.displayName,
+                    baseCooldown: spellBaseCooldown(enemy.summonerSpells.summonerSpellOne.displayName)
+                ),
+                spell2: existing?.spell2 ?? SpellCooldownState(
+                    spellName: enemy.summonerSpells.summonerSpellTwo.displayName,
+                    baseCooldown: spellBaseCooldown(enemy.summonerSpells.summonerSpellTwo.displayName)
+                )
+            )
+        }
+    }
+
+    // MARK: - Spell Tracking
+
+    func markSpellUsed(enemyIndex: Int, spellIndex: Int) {
+        guard enemyIndex < enemySpells.count else { return }
+        var enemy = enemySpells[enemyIndex]
+        if spellIndex == 0 {
+            enemy.spell1.cooldownEnd = Date().addingTimeInterval(enemy.spell1.baseCooldown)
+        } else {
+            enemy.spell2.cooldownEnd = Date().addingTimeInterval(enemy.spell2.baseCooldown)
+        }
+        enemySpells[enemyIndex] = enemy
+        logger.info("Marked \(enemy.championName) spell \(spellIndex + 1) on cooldown (\(spellIndex == 0 ? enemy.spell1.baseCooldown : enemy.spell2.baseCooldown)s)")
+    }
+
+    // MARK: - Rune Import
+
+    func importRunes(_ page: RunePage) {
+        guard let lcuClient = lcuClient else {
+            logger.warning("Cannot import runes: LCU not connected")
+            return
+        }
+        lcuClient.importRunes(page) { [weak self] result in
+            switch result {
+            case .success:
+                self?.logger.info("Runes imported successfully")
+            case .failure(let error):
+                self?.logger.error("Rune import failed: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    // MARK: - Cleanup
+
+    private func cleanup() {
+        stopLiveGamePolling()
+        spellTracker?.stop()
+        lcuClient?.disconnect()
+        lcuClient = nil
+        currentCS = 0
+        csBenchmarkDiff = 0
+        enemySpells = []
+        jungleTimers = GameStateManager.defaultTimers()
+        champSelectSession = nil
+        consecutiveFailures = 0
+        backoffInterval = 1.0
+    }
+
+    // MARK: - Helpers
+
+    static func defaultTimers() -> [JungleTimer] {
+        [
+            JungleTimer(id: "dragon", name: "Dragon", icon: "🐉", isAlive: true),
+            JungleTimer(id: "baron", name: "Baron", icon: "👹", isAlive: true),
+            JungleTimer(id: "blue_enemy", name: "Blue (Enemy)", icon: "🔵", isAlive: true),
+            JungleTimer(id: "red_enemy", name: "Red (Enemy)", icon: "🔴", isAlive: true),
+        ]
+    }
+
+    private func spellBaseCooldown(_ name: String) -> TimeInterval {
+        switch name.lowercased() {
+        case "flash": return 300
+        case "teleport": return 360
+        case "ignite": return 180
+        case "exhaust": return 210
+        case "heal": return 240
+        case "barrier": return 180
+        case "cleanse": return 210
+        case "ghost": return 210
+        case "smite": return 90
+        default: return 300
+        }
+    }
+}
