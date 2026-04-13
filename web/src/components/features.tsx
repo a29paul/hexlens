@@ -10,7 +10,10 @@ import {
   Gamepad2,
   Users,
   TrendingUp,
-  Building2,
+  Swords,
+  Eye,
+  MousePointerClick,
+  Keyboard,
 } from "lucide-react";
 
 const features = [
@@ -18,25 +21,43 @@ const features = [
     icon: Zap,
     title: "Native Swift",
     description:
-      "30MB, not 300MB. No Electron, no Overwolf. Built for Mac from the ground up.",
+      "30MB, not 300MB. No Electron, no Overwolf. Built for Mac from the ground up. Works in fullscreen.",
   },
   {
-    icon: Crosshair,
-    title: "Auto-detect",
+    icon: Keyboard,
+    title: "Tab to Show",
     description:
-      "Launches automatically when LoL starts. Menu bar app, no dock clutter.",
+      "Hold Tab to see the overlay, release to hide. Same muscle memory as the LoL scoreboard. Zero distraction.",
+  },
+  {
+    icon: MousePointerClick,
+    title: "Click-to-Track Spells",
+    description:
+      "Click enemy summoner spell icons when used. Cooldowns start automatically. Real spell icons from Data Dragon.",
+  },
+  {
+    icon: Swords,
+    title: "Ult Cooldown Tracking",
+    description:
+      "Click the R badge when an enemy ults. Per-champion cooldowns from Meraki (170+ champs), reduced by their actual ability haste from items.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Gold Scoreboard",
+    description:
+      "Per-lane gold matchups with champion portraits. Team totals and gold diff. See who's winning every lane at a glance.",
   },
   {
     icon: BarChart3,
-    title: "Role-adaptive CS",
+    title: "Player Stats",
     description:
-      "Benchmarks that know the difference between a jungler and an ADC. Shows your CS diff vs rank average in real time.",
+      "CS/min, Gold/min, Kill Participation %, Vision/min, KDA, and level. All updated live from the Riot API.",
   },
   {
-    icon: Timer,
-    title: "Jungle & Inhib Timers",
+    icon: Users,
+    title: "Ally Tracker",
     description:
-      "Dragon, Baron, buff respawns, and inhibitor countdowns. All tracked from live game events. Pulses red when under 30s.",
+      "Teammate champion, level, ult readiness, and alive/dead status. Know when to engage.",
   },
   {
     icon: Sparkles,
@@ -45,28 +66,16 @@ const features = [
       "One click in champ select. Recommended runes written directly to your client via the LCU API.",
   },
   {
-    icon: Gamepad2,
-    title: "Spell Tracking",
+    icon: Crosshair,
+    title: "Auto-detect + Mid-game Join",
     description:
-      "F1-F10 hotkeys to mark enemy summoner spells. Cooldowns auto-calculated with CDR. Same feature Blitz and Porofessor ship.",
+      "Detects LoL automatically. Launch the app mid-game and it picks up where you are. Menu bar app, no dock clutter.",
   },
   {
-    icon: Users,
-    title: "Ally Tracker",
+    icon: Eye,
+    title: "Champion Portraits",
     description:
-      "See your teammates' champion, level, ult readiness, and alive/dead status at a glance. Know when to engage.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Gold Lead",
-    description:
-      "Live team gold differential. Know if you're ahead or behind without checking the scoreboard.",
-  },
-  {
-    icon: Building2,
-    title: "Inhibitor Timers",
-    description:
-      "Tracks enemy inhibitor respawns (5 min countdown). Never miss the window to push and end.",
+      "Real champion icons and summoner spell images loaded from Riot's Data Dragon CDN. Name fallback if offline.",
   },
 ];
 
@@ -89,7 +98,7 @@ export function Features() {
         viewport={{ once: true }}
         className="text-center text-white/35 mb-16 max-w-lg mx-auto"
       >
-        9 features. Zero Overwolf dependency. Native performance.
+        10 features. Zero Overwolf. Native performance. Hold Tab to see it all.
       </motion.p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -99,7 +108,7 @@ export function Features() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
+            transition={{ duration: 0.4, delay: i * 0.06 }}
             className="group rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 hover:bg-white/[0.04] hover:border-white/[0.1] transition-colors"
           >
             <feature.icon className="w-8 h-8 text-[#c8aa6e] mb-4 group-hover:scale-110 transition-transform" />
