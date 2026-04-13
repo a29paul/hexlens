@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-14
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build release binary
+        run: swift build -c release
+
+      - name: Create app bundle
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          mkdir -p Hexlens.app/Contents/MacOS
+          mkdir -p Hexlens.app/Contents/Resources
+          cp .build/release/MacLeagueOverlay Hexlens.app/Contents/MacOS/Hexlens
+          cat > Hexlens.app/Contents/Info.plist << PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CFBundleExecutable</key>
+            <string>Hexlens</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.hexlens.app</string>
+            <key>CFBundleName</key>
+            <string>Hexlens</string>
+            <key>CFBundleVersion</key>
+            <string>${VERSION}</string>
+            <key>CFBundleShortVersionString</key>
+            <string>${VERSION}</string>
+            <key>LSUIElement</key>
+            <true/>
+            <key>LSMinimumSystemVersion</key>
+            <string>14.0</string>
+          </dict>
+          </plist>
+          PLIST
+
+      - name: Create DMG
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          hdiutil create -volname "Hexlens" -srcfolder Hexlens.app -ov -format UDZO "Hexlens-${VERSION}.dmg"
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: desktop/Hexlens-*.dmg
+          generate_release_notes: true
