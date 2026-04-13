@@ -14,7 +14,8 @@ struct OverlayView: View {
             GoldScoreboard(
                 allyTeamGold: gameStateManager.allyTeamGold,
                 enemyTeamGold: gameStateManager.enemyTeamGold,
-                matchups: gameStateManager.laneMatchups
+                matchups: gameStateManager.laneMatchups,
+                version: gameStateManager.dataDragonVersion
             )
 
             // Enemy spells + ults
@@ -108,32 +109,50 @@ struct StatItem: View {
 struct SpellTrackerSection: View {
     @ObservedObject var gameStateManager: GameStateManager
 
+    private var version: String { gameStateManager.dataDragonVersion }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             SectionHeader(title: "ENEMY SPELLS (click to track)")
 
             ForEach(Array(gameStateManager.enemySpells.enumerated()), id: \.element.id) { index, enemy in
                 HStack(spacing: 8) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(enemy.championName.prefix(10))
-                            .font(.system(size: 15, weight: .semibold))
+                    // Champion icon + name
+                    ChampionIcon(name: enemy.championName, version: version, size: 32)
+
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(enemy.championName.prefix(9))
+                            .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(.white.opacity(0.85))
                         Text("Lv\(enemy.level)")
-                            .font(.system(size: 12, weight: .medium, design: .monospaced))
+                            .font(.system(size: 10, weight: .medium, design: .monospaced))
                             .foregroundStyle(Color.lolTextSecondary)
                     }
-                    .frame(width: 100, alignment: .leading)
+                    .frame(width: 75, alignment: .leading)
 
                     Spacer()
 
-                    SpellBadge(spell: enemy.ult, label: "R", size: .large) {
+                    // Ult
+                    SpellBadge(spell: enemy.ult, label: "R", iconURL: nil, size: .large) {
                         gameStateManager.markUltUsed(enemyIndex: index)
                     }
 
-                    SpellBadge(spell: enemy.spell1, label: nil, size: .medium) {
+                    // Summoner spells with icons
+                    SpellBadge(
+                        spell: enemy.spell1,
+                        label: nil,
+                        iconURL: DataDragon.shared.spellIconURL(rawDisplayName: enemy.spell1.rawDisplayName ?? "", version: version),
+                        size: .medium
+                    ) {
                         gameStateManager.markSpellUsed(enemyIndex: index, spellIndex: 0)
                     }
-                    SpellBadge(spell: enemy.spell2, label: nil, size: .medium) {
+
+                    SpellBadge(
+                        spell: enemy.spell2,
+                        label: nil,
+                        iconURL: DataDragon.shared.spellIconURL(rawDisplayName: enemy.spell2.rawDisplayName ?? "", version: version),
+                        size: .medium
+                    ) {
                         gameStateManager.markSpellUsed(enemyIndex: index, spellIndex: 1)
                     }
                 }
@@ -142,9 +161,49 @@ struct SpellTrackerSection: View {
     }
 }
 
+// MARK: - Champion Icon
+
+struct ChampionIcon: View {
+    let name: String
+    let version: String
+    let size: CGFloat
+
+    var body: some View {
+        AsyncImage(url: DataDragon.shared.championIconURL(name: name, version: version)) { phase in
+            switch phase {
+            case .success(let image):
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: size, height: size)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+            case .failure:
+                fallbackIcon
+            case .empty:
+                fallbackIcon
+            @unknown default:
+                fallbackIcon
+            }
+        }
+        .frame(width: size, height: size)
+    }
+
+    private var fallbackIcon: some View {
+        RoundedRectangle(cornerRadius: 6)
+            .fill(Color(white: 0.15))
+            .frame(width: size, height: size)
+            .overlay(
+                Text(String(name.prefix(2)))
+                    .font(.system(size: size * 0.4, weight: .bold))
+                    .foregroundStyle(.white.opacity(0.5))
+            )
+    }
+}
+
 struct SpellBadge: View {
     let spell: SpellCooldownState
     var label: String?
+    var iconURL: URL?
     var size: BadgeSize = .medium
     let onTap: () -> Void
 
@@ -168,23 +227,52 @@ struct SpellBadge: View {
 
     var body: some View {
         Button(action: onTap) {
-            Text(displayText)
-                .font(.system(size: size.fontSize, weight: .bold, design: .monospaced))
-                .frame(width: size.dimension, height: size.dimension)
-                .background(
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(backgroundColor)
-                )
-                .foregroundStyle(foregroundColor)
+            ZStack {
+                // Background: icon or solid color
+                if spell.isReady, let url = iconURL {
+                    AsyncImage(url: url) { phase in
+                        if case .success(let image) = phase {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        } else {
+                            Rectangle().fill(backgroundColor)
+                        }
+                    }
+                } else if spell.isReady && label == "R" {
+                    Rectangle().fill(Color.lolGold.opacity(0.9))
+                } else if spell.isReady {
+                    Rectangle().fill(Color.lolGreen)
+                } else {
+                    Rectangle().fill(Color(white: 0.1))
+                }
+
+                // Cooldown overlay
+                if !spell.isReady {
+                    Color.black.opacity(0.7)
+                    Text(cooldownText)
+                        .font(.system(size: size.fontSize, weight: .bold, design: .monospaced))
+                        .foregroundStyle(Color.lolRed)
+                } else if label != nil {
+                    Text(label!)
+                        .font(.system(size: size.fontSize, weight: .bold, design: .monospaced))
+                        .foregroundStyle(.black)
+                }
+            }
+            .frame(width: size.dimension, height: size.dimension)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(spell.isReady ? Color.clear : Color.lolRed.opacity(0.4), lineWidth: 1)
+            )
         }
         .buttonStyle(.plain)
     }
 
-    private var displayText: String {
-        if spell.isReady { return label ?? "✓" }
-        guard let end = spell.cooldownEnd else { return label ?? "✓" }
+    private var cooldownText: String {
+        guard let end = spell.cooldownEnd else { return "" }
         let remaining = Int(end.timeIntervalSinceNow)
-        if remaining <= 0 { return label ?? "✓" }
+        if remaining <= 0 { return "" }
         return "\(remaining)"
     }
 
@@ -192,11 +280,7 @@ struct SpellBadge: View {
         if spell.isReady {
             return label == "R" ? Color.lolGold.opacity(0.9) : Color.lolGreen
         }
-        return Color(white: 0.15)
-    }
-
-    private var foregroundColor: Color {
-        spell.isReady ? .black : Color.lolRed
+        return Color(white: 0.1)
     }
 }
 
@@ -251,6 +335,7 @@ struct GoldScoreboard: View {
     let allyTeamGold: Int
     let enemyTeamGold: Int
     let matchups: [LaneMatchup]
+    let version: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -292,39 +377,30 @@ struct GoldScoreboard: View {
                 Divider().background(Color.white.opacity(0.06))
 
                 ForEach(matchups) { lane in
-                    HStack(spacing: 4) {
-                        Text(positionEmoji(lane.position))
-                            .font(.system(size: 12))
-                            .frame(width: 18)
-
-                        Text(lane.allyChampion.prefix(8))
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundStyle(.white.opacity(0.7))
-                            .frame(width: 70, alignment: .leading)
-
+                    HStack(spacing: 5) {
+                        // Ally side
+                        ChampionIcon(name: lane.allyChampion, version: version, size: 22)
                         Text(formatGold(lane.allyGold))
-                            .font(.system(size: 12, design: .monospaced))
-                            .foregroundStyle(Color.lolTextSecondary)
-                            .frame(width: 45, alignment: .trailing)
-
-                        Spacer()
-
-                        Text(lane.diffText)
-                            .font(.system(size: 12, weight: .bold, design: .monospaced))
-                            .foregroundStyle(lane.diff >= 0 ? Color.lolGreen : Color.lolRed)
-                            .frame(width: 50)
-
-                        Spacer()
-
-                        Text(formatGold(lane.enemyGold))
-                            .font(.system(size: 12, design: .monospaced))
-                            .foregroundStyle(Color.lolTextSecondary)
-                            .frame(width: 45, alignment: .leading)
-
-                        Text(lane.enemyChampion.prefix(8))
-                            .font(.system(size: 12, weight: .medium))
+                            .font(.system(size: 12, weight: .medium, design: .monospaced))
                             .foregroundStyle(.white.opacity(0.7))
-                            .frame(width: 70, alignment: .trailing)
+                            .frame(width: 40, alignment: .trailing)
+
+                        Spacer()
+
+                        // Diff
+                        Text(lane.diffText)
+                            .font(.system(size: 13, weight: .bold, design: .monospaced))
+                            .foregroundStyle(lane.diff >= 0 ? Color.lolGreen : Color.lolRed)
+                            .frame(width: 55)
+
+                        Spacer()
+
+                        // Enemy side
+                        Text(formatGold(lane.enemyGold))
+                            .font(.system(size: 12, weight: .medium, design: .monospaced))
+                            .foregroundStyle(.white.opacity(0.7))
+                            .frame(width: 40, alignment: .leading)
+                        ChampionIcon(name: lane.enemyChampion, version: version, size: 22)
                     }
                 }
             }

@@ -57,6 +57,7 @@ struct EnemySpellState: Identifiable {
 
 struct SpellCooldownState {
     var spellName: String
+    var rawDisplayName: String?  // for icon lookup from Data Dragon
     var cooldownEnd: Date?
     var baseCooldown: TimeInterval
 

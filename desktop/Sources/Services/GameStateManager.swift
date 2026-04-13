@@ -35,6 +35,7 @@ class GameStateManager: ObservableObject {
     private var processedDragonEventIDs: Set<Int> = []
     /// Cached ult cooldowns from DataDragon actor, keyed by champion name → [rank1CD, rank2CD, rank3CD]
     private var cachedUltCooldowns: [String: [Double]] = [:]
+    @Published var dataDragonVersion: String = "15.7.1"  // fallback, updated on load
 
     private let logger = Logger(subsystem: "com.macleagueoverlay", category: "GameState")
     private var gameDetector: GameDetector?
@@ -310,10 +311,12 @@ class GameStateManager: ObservableObject {
                 championName: enemy.championName,
                 spell1: existing?.spell1 ?? SpellCooldownState(
                     spellName: enemy.summonerSpells.summonerSpellOne.displayName,
+                    rawDisplayName: enemy.summonerSpells.summonerSpellOne.rawDisplayName,
                     baseCooldown: spellBaseCooldown(enemy.summonerSpells.summonerSpellOne.displayName)
                 ),
                 spell2: existing?.spell2 ?? SpellCooldownState(
                     spellName: enemy.summonerSpells.summonerSpellTwo.displayName,
+                    rawDisplayName: enemy.summonerSpells.summonerSpellTwo.rawDisplayName,
                     baseCooldown: spellBaseCooldown(enemy.summonerSpells.summonerSpellTwo.displayName)
                 ),
                 ult: existing?.ult ?? SpellCooldownState(
@@ -536,9 +539,11 @@ class GameStateManager: ObservableObject {
 
     private func refreshUltCooldownCache() async {
         let allCDs = await DataDragon.shared.allUltCooldowns()
+        let version = await DataDragon.shared.patchVersion()
         await MainActor.run {
             cachedUltCooldowns = allCDs
-            logger.info("Cached ult cooldowns for \(allCDs.count) champions")
+            if let v = version { dataDragonVersion = v }
+            logger.info("Cached ult cooldowns for \(allCDs.count) champions, version \(self.dataDragonVersion)")
         }
     }
 

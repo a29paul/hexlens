@@ -106,6 +106,26 @@ actor DataDragon {
     }
 
     /// Get all cached ult cooldowns for synchronous access by GameStateManager.
+    /// Current Data Dragon patch version (e.g. "15.7.1")
+    func patchVersion() -> String? {
+        currentVersion
+    }
+
+    /// Champion icon URL from Data Dragon CDN
+    nonisolated func championIconURL(name: String, version: String) -> URL? {
+        URL(string: "https://ddragon.leagueoflegends.com/cdn/\(version)/img/champion/\(name).png")
+    }
+
+    /// Summoner spell icon URL from Data Dragon CDN.
+    /// spellRawName is like "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName" → "SummonerFlash"
+    nonisolated func spellIconURL(rawDisplayName: String, version: String) -> URL? {
+        // Extract spell ID: "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName" → "SummonerFlash"
+        let parts = rawDisplayName.split(separator: "_")
+        guard parts.count >= 4 else { return nil }
+        let spellId = String(parts[2])
+        return URL(string: "https://ddragon.leagueoflegends.com/cdn/\(version)/img/spell/\(spellId).png")
+    }
+
     func allUltCooldowns() -> [String: [Double]] {
         ultCooldowns
     }
