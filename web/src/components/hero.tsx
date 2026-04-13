@@ -45,7 +45,7 @@ export function Hero() {
         <p className="text-lg sm:text-xl text-white/50 max-w-xl mx-auto mb-10 leading-relaxed">
           Gold scoreboard, spell tracking, ult cooldowns, player stats,
           champion portraits. Hold Tab to see it all.
-          Native Swift. Zero Overwolf. The first League overlay for Mac.
+          Native Swift. Zero Overwolf. No ads, ever. The first League overlay for Mac.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

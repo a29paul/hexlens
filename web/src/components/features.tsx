@@ -14,9 +14,16 @@ import {
   Eye,
   MousePointerClick,
   Keyboard,
+  Ban,
 } from "lucide-react";
 
 const features = [
+  {
+    icon: Ban,
+    title: "No Ads. Ever.",
+    description:
+      "Free and open source. No ads, no premium tier, no Overwolf pop-ups. Riot banned overlay ads in 2025. We never had them.",
+  },
   {
     icon: Zap,
     title: "Native Swift",
@@ -98,7 +105,7 @@ export function Features() {
         viewport={{ once: true }}
         className="text-center text-white/35 mb-16 max-w-lg mx-auto"
       >
-        10 features. Zero Overwolf. Native performance. Hold Tab to see it all.
+        No ads. No Overwolf. Native performance. Hold Tab to see it all.
       </motion.p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
