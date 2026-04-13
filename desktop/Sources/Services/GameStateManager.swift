@@ -146,6 +146,13 @@ class GameStateManager: ObservableObject {
                 }
             }
         }
+        lcuClient?.onConnectionFailed = { [weak self] in
+            DispatchQueue.main.async {
+                self?.logger.warning("LCU connection permanently failed, resetting detection")
+                self?.lcuClient = nil
+                self?.gameDetector?.resetWasRunning()
+            }
+        }
         lcuClient?.connect()
     }
 

@@ -32,6 +32,7 @@ class LCUClient: NSObject {
     var onChampSelect: ((ChampSelectSession) -> Void)?
     var onChampSelectEnd: (() -> Void)?
     var onDodge: (() -> Void)?
+    var onConnectionFailed: (() -> Void)?
 
     init(lockfileData: LockfileData) {
         self.lockfileData = lockfileData
@@ -152,7 +153,8 @@ class LCUClient: NSObject {
 
     private func attemptReconnect() {
         guard reconnectAttempts < maxReconnectAttempts else {
-            logger.error("Max reconnect attempts reached")
+            logger.error("Max reconnect attempts reached, notifying manager")
+            onConnectionFailed?()
             return
         }
         reconnectAttempts += 1

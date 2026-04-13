@@ -23,7 +23,7 @@ jobs:
           mkdir -p Hexlens.app/Contents/MacOS
           mkdir -p Hexlens.app/Contents/Resources
           cp .build/release/MacLeagueOverlay Hexlens.app/Contents/MacOS/Hexlens
-          cat > Hexlens.app/Contents/Info.plist << PLIST
+          cat > Hexlens.app/Contents/Info.plist << 'PLIST'
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
@@ -35,21 +35,72 @@ jobs:
             <key>CFBundleName</key>
             <string>Hexlens</string>
             <key>CFBundleVersion</key>
-            <string>${VERSION}</string>
+            <string>VERSION_PLACEHOLDER</string>
             <key>CFBundleShortVersionString</key>
-            <string>${VERSION}</string>
+            <string>VERSION_PLACEHOLDER</string>
             <key>LSUIElement</key>
             <true/>
             <key>LSMinimumSystemVersion</key>
             <string>14.0</string>
+            <key>NSInputMonitoringUsageDescription</key>
+            <string>Hexlens tracks F-key presses while League of Legends is active to record enemy summoner spell cooldowns.</string>
+            <key>NSAccessibilityUsageDescription</key>
+            <string>Hexlens uses accessibility to monitor global hotkeys while League of Legends is active.</string>
           </dict>
           </plist>
           PLIST
+          sed -i '' "s/VERSION_PLACEHOLDER/${VERSION}/g" Hexlens.app/Contents/Info.plist
+
+      - name: Create entitlements
+        run: |
+          cat > entitlements.plist << 'ENTITLEMENTS'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>com.apple.security.automation.apple-events</key>
+            <true/>
+          </dict>
+          </plist>
+          ENTITLEMENTS
+
+      - name: Import code signing certificate
+        if: env.APPLE_CERTIFICATE != ''
+        uses: apple-actions/import-codesign-certs@v2
+        with:
+          p12-file-base64: ${{ secrets.APPLE_CERTIFICATE }}
+          p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+
+      - name: Sign app bundle
+        if: env.APPLE_CERTIFICATE != ''
+        run: |
+          codesign --deep --force --verify --verbose \
+            --sign "Developer ID Application: ${{ secrets.APPLE_IDENTITY }}" \
+            --options runtime \
+            --entitlements entitlements.plist \
+            Hexlens.app
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
 
       - name: Create DMG
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           hdiutil create -volname "Hexlens" -srcfolder Hexlens.app -ov -format UDZO "Hexlens-${VERSION}.dmg"
+
+      - name: Notarize and staple
+        if: env.APPLE_ID != ''
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          xcrun notarytool submit "Hexlens-${VERSION}.dmg" \
+            --apple-id "${{ secrets.APPLE_ID }}" \
+            --team-id "${{ secrets.APPLE_TEAM_ID }}" \
+            --password "${{ secrets.APPLE_APP_PASSWORD }}" \
+            --wait
+          xcrun stapler staple "Hexlens-${VERSION}.dmg"
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
 
       - name: Upload release
         uses: softprops/action-gh-release@v2

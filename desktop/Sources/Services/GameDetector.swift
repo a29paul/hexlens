@@ -40,6 +40,12 @@ class GameDetector {
 
     private var wasRunning = false
 
+    /// Reset detection state so the next check re-triggers onProcessFound.
+    /// Called when LCU connection is permanently lost while LoL is still running.
+    func resetWasRunning() {
+        wasRunning = false
+    }
+
     private func checkForProcess() {
         let isLolRunning = isLeagueClientRunning()
 

@@ -34,10 +34,15 @@ class OverlayWindowController {
         window.isOpaque = false
         window.backgroundColor = .clear
         window.hasShadow = false
-        window.level = .screenSaver
-        window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
+        // Use maximum window level to appear above fullscreen macOS Spaces.
+        // LoL on Mac uses macOS Space-based fullscreen (not exclusive),
+        // so NSWindow can appear on top with the right level + collection behavior.
+        window.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
+        window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary, .ignoresCycle]
         window.ignoresMouseEvents = true
         window.contentView = hostingView
+        // Prevent the overlay from being hidden when the app is deactivated
+        window.hidesOnDeactivate = false
 
         // Position: top-right of main screen, inset 20px
         if let screen = NSScreen.main {

@@ -31,7 +31,7 @@ Requires macOS 14+ and Xcode Command Line Tools.
 - **Global hotkeys** (F1-F10) to mark enemy summoner spell cooldowns
 - **Role-adaptive benchmarks** (jungler gets jungle CS, support gets ward score)
 
-The overlay requires LoL to run in **borderless windowed** mode (not fullscreen).
+The overlay works in both **fullscreen** and **borderless windowed** mode.
 
 ## Riot Games compliance
 

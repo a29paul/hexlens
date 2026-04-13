@@ -49,7 +49,7 @@ const steps = [
     number: "5",
     title: "Play",
     description:
-      "Launch League of Legends in borderless windowed mode. Hexlens detects it automatically. The overlay appears when your game starts.",
+      "Launch League of Legends. Hexlens detects it automatically. The overlay appears when your game starts. Works in both fullscreen and borderless windowed.",
   },
 ];
 
@@ -89,7 +89,7 @@ export default function InstallPage() {
               </div>
               <div className="flex items-center gap-2 text-white/50">
                 <Monitor className="w-4 h-4 text-[#c8aa6e]" />
-                Borderless windowed
+                Fullscreen supported
               </div>
               <div className="flex items-center gap-2 text-white/50">
                 <Shield className="w-4 h-4 text-[#c8aa6e]" />
@@ -168,8 +168,10 @@ export default function InstallPage() {
                   Overlay doesn&apos;t appear
                 </h3>
                 <p className="text-white/40">
-                  Make sure LoL is running in borderless windowed mode (not
-                  fullscreen). Check Video settings in the LoL client.
+                  Try switching between fullscreen and borderless windowed in
+                  LoL&apos;s Video settings. Restart the game after changing.
+                  If still not visible, check that Hexlens is running in the
+                  menu bar.
                 </p>
               </div>
               <div>

@@ -31,8 +31,8 @@ struct OnboardingView: View {
 
                 OnboardingItem(
                     icon: "rectangle.inset.filled",
-                    title: "Use borderless windowed",
-                    detail: "The overlay requires LoL to run in borderless windowed mode, not fullscreen."
+                    title: "Works in fullscreen",
+                    detail: "The overlay appears on top of LoL in both fullscreen and borderless windowed mode."
                 )
             }
 

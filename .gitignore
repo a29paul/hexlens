@@ -12,3 +12,4 @@ DerivedData/
 
 # Node (future web framework)
 node_modules/
+.gstack/
