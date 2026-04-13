@@ -18,6 +18,12 @@ class GameStateManager: ObservableObject {
     @Published var allies: [AllyState] = []
     @Published var inhibitorTimers: [InhibitorTimer] = []
     @Published var goldLead: Int = 0  // positive = our team ahead
+    @Published var csPerMin: Double = 0
+    @Published var goldPerMin: Double = 0
+    @Published var killParticipation: Double = 0  // 0-100%
+    @Published var visionPerMin: Double = 0
+    @Published var playerLevel: Int = 0
+    @Published var kda: (kills: Int, deaths: Int, assists: Int) = (0, 0, 0)
     @Published var allyTeamGold: Int = 0
     @Published var enemyTeamGold: Int = 0
     @Published var laneMatchups: [LaneMatchup] = []
@@ -266,8 +272,28 @@ class GameStateManager: ObservableObject {
         // CS + benchmark
         currentCS = me?.scores.creepScore ?? 0
         let gameMinutes = Int(data.gameData.gameTime / 60)
+        let gameMinutesF = max(data.gameData.gameTime / 60.0, 0.1)
         let benchmark = PatchDataService.shared.getCSBenchmark(role: playerRole, gameTimeMinutes: max(gameMinutes, 1))
         csBenchmarkDiff = currentCS - Int(benchmark)
+
+        // Per-minute stats
+        playerLevel = me?.level ?? 0
+        csPerMin = Double(currentCS) / gameMinutesF
+        visionPerMin = (me?.scores.wardScore ?? 0) / gameMinutesF
+        kda = (kills: me?.scores.kills ?? 0, deaths: me?.scores.deaths ?? 0, assists: me?.scores.assists ?? 0)
+
+        // Gold per min from items
+        let myItemGold = (me?.items ?? []).reduce(0) { $0 + ($1.price ?? 0) * $1.count }
+        goldPerMin = Double(myItemGold) / gameMinutesF
+
+        // Kill participation: (my kills + assists) / team total kills
+        let myTeamPlayers = data.allPlayers.filter { $0.team == (me?.team ?? "") }
+        let teamKills = myTeamPlayers.reduce(0) { $0 + $1.scores.kills }
+        if teamKills > 0 {
+            killParticipation = Double((me?.scores.kills ?? 0) + (me?.scores.assists ?? 0)) / Double(teamKills) * 100.0
+        } else {
+            killParticipation = 0
+        }
 
         // Process events for timers
         timerEngine?.processEvents(data.events.Events, gameTime: data.gameData.gameTime)
@@ -475,6 +501,12 @@ class GameStateManager: ObservableObject {
         currentCS = 0
         csBenchmarkDiff = 0
         playerRole = .unknown
+        csPerMin = 0
+        goldPerMin = 0
+        killParticipation = 0
+        visionPerMin = 0
+        playerLevel = 0
+        kda = (0, 0, 0)
         enemySpells = []
         allies = []
         inhibitorTimers = []

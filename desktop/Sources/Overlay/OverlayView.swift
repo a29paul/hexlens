@@ -7,13 +7,8 @@ struct OverlayView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            // CS + Gold header
-            CSTrackerSection(
-                currentCS: gameStateManager.currentCS,
-                csDiff: gameStateManager.csBenchmarkDiff,
-                role: gameStateManager.playerRole,
-                goldLead: gameStateManager.goldLead
-            )
+            // Player stats
+            PlayerStatsSection(gameStateManager: gameStateManager)
 
             // Gold scoreboard
             GoldScoreboard(
@@ -40,33 +35,71 @@ struct OverlayView: View {
 
 // MARK: - CS Tracker
 
-struct CSTrackerSection: View {
-    let currentCS: Int
-    let csDiff: Int
-    let role: PlayerRole
-    let goldLead: Int
+struct PlayerStatsSection: View {
+    @ObservedObject var gameStateManager: GameStateManager
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            SectionHeader(title: role == .jungle ? "JUNGLE CS" : "CS TRACKER")
-
+        VStack(alignment: .leading, spacing: 10) {
+            // KDA header
             HStack(alignment: .firstTextBaseline) {
-                Text("\(currentCS)")
-                    .font(.system(size: 42, weight: .bold, design: .monospaced))
+                Text("\(gameStateManager.kda.kills)/\(gameStateManager.kda.deaths)/\(gameStateManager.kda.assists)")
+                    .font(.system(size: 28, weight: .bold, design: .monospaced))
                     .foregroundStyle(.white)
 
                 Spacer()
 
-                Text(csDiffText)
+                Text("Lv\(gameStateManager.playerLevel)")
                     .font(.system(size: 18, weight: .semibold, design: .monospaced))
-                    .foregroundStyle(csDiff >= 0 ? Color.lolGreen : Color.lolRed)
+                    .foregroundStyle(Color.lolGold)
+            }
+
+            // Stats grid
+            HStack(spacing: 16) {
+                StatItem(
+                    label: "CS/min",
+                    value: String(format: "%.1f", gameStateManager.csPerMin),
+                    sub: "\(gameStateManager.currentCS) cs"
+                )
+                StatItem(
+                    label: "Gold/min",
+                    value: String(format: "%.0f", gameStateManager.goldPerMin),
+                    sub: nil
+                )
+                StatItem(
+                    label: "KP",
+                    value: String(format: "%.0f%%", gameStateManager.killParticipation),
+                    sub: nil
+                )
+                StatItem(
+                    label: "Vision/min",
+                    value: String(format: "%.1f", gameStateManager.visionPerMin),
+                    sub: nil
+                )
             }
         }
     }
+}
 
-    private var csDiffText: String {
-        let sign = csDiff >= 0 ? "+" : ""
-        return "\(sign)\(csDiff) vs avg"
+struct StatItem: View {
+    let label: String
+    let value: String
+    let sub: String?
+
+    var body: some View {
+        VStack(spacing: 2) {
+            Text(value)
+                .font(.system(size: 16, weight: .bold, design: .monospaced))
+                .foregroundStyle(.white)
+            Text(label)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundStyle(Color.lolTextSecondary)
+            if let sub = sub {
+                Text(sub)
+                    .font(.system(size: 9, design: .monospaced))
+                    .foregroundStyle(Color.lolTextSecondary.opacity(0.7))
+            }
+        }
+        .frame(maxWidth: .infinity)
     }
 }
 
