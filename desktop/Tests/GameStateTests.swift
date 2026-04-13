@@ -13,7 +13,7 @@ final class GameStateTests: XCTestCase {
         case (.idle, .lobby), (.idle, .idle): return true
         case (.lobby, .champSelect), (.lobby, .idle): return true
         case (.champSelect, .loading), (.champSelect, .lobby), (.champSelect, .idle): return true
-        case (.loading, .inGame), (.loading, .idle): return true
+        case (.loading, .inGame), (.loading, .idle), (.loading, .lobby): return true
         case (.inGame, .postGame), (.inGame, .idle): return true
         case (.postGame, .idle), (.postGame, .lobby): return true
         default: return false
@@ -94,8 +94,9 @@ final class GameStateTests: XCTestCase {
         XCTAssertFalse(isValidTransition(from: .postGame, to: .inGame))
     }
 
-    func testLoadingToLobbyInvalid() {
-        XCTAssertFalse(isValidTransition(from: .loading, to: .lobby))
+    func testLoadingToLobbyDodge() {
+        // Loading → Lobby is valid (dodge recovery: loading timeout falls back to lobby)
+        XCTAssertTrue(isValidTransition(from: .loading, to: .lobby))
     }
 
     // MARK: - Full Lifecycle

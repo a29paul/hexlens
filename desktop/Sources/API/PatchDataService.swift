@@ -9,7 +9,7 @@ import os
 ///
 /// Caches locally per patch version. Falls back to last cached data
 /// if fetch fails.
-class PatchDataService {
+actor PatchDataService {
     static let shared = PatchDataService()
 
     private let logger = Logger(subsystem: "com.macleagueoverlay", category: "PatchData")
@@ -77,7 +77,7 @@ class PatchDataService {
         return buildData[key] ?? buildData[championId]
     }
 
-    func getCSBenchmark(role: PlayerRole, gameTimeMinutes: Int) -> Double {
+    nonisolated func getCSBenchmark(role: PlayerRole, gameTimeMinutes: Int) -> Double {
         // Default CS benchmarks by role at gold elo
         switch role {
         case .adc:
@@ -117,7 +117,7 @@ class PatchDataService {
         return try await fetch(url)
     }
 
-    private func fetch(_ urlString: String) async throws -> Data {
+    private nonisolated func fetch(_ urlString: String) async throws -> Data {
         guard let url = URL(string: urlString) else {
             throw PatchDataError.invalidURL
         }

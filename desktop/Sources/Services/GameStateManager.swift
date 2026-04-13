@@ -167,11 +167,19 @@ class GameStateManager: ObservableObject {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
+                    let wasInBackoff = (self?.consecutiveFailures ?? 0) >= 3
                     self?.consecutiveFailures = 0
                     self?.backoffInterval = 1.0
                     self?.processLiveGameData(data)
                     if self?.state == .loading {
                         self?.transitionTo(.inGame)
+                    }
+                    // Restore 1s polling if we were in backoff
+                    if wasInBackoff {
+                        self?.pollTimer?.invalidate()
+                        self?.pollTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+                            self?.pollLiveGame()
+                        }
                     }
                 case .failure(let error):
                     self?.handlePollFailure(error)
@@ -276,6 +284,7 @@ class GameStateManager: ObservableObject {
         lcuClient = nil
         currentCS = 0
         csBenchmarkDiff = 0
+        playerRole = .unknown
         enemySpells = []
         jungleTimers = GameStateManager.defaultTimers()
         champSelectSession = nil

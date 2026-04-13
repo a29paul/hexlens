@@ -83,17 +83,13 @@ struct ChampSelectView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.white.opacity(0.15), lineWidth: 1)
         )
+        .onAppear { resolveChampionName() }
+        .onChange(of: gameStateManager.champSelectSession?.localPlayerCellId) { resolveChampionName() }
     }
 
-    private var championName: String {
-        guard let session = gameStateManager.champSelectSession,
-              let localCell = session.localPlayerCellId,
-              let me = session.myTeam?.first(where: { $0.cellId == localCell }),
-              me.championId > 0 else {
-            return "Selecting..."
-        }
-        return DataDragon.shared.championName(for: me.championId)
-    }
+    @State private var resolvedChampName: String = "Selecting..."
+
+    private var championName: String { resolvedChampName }
 
     private var roleText: String {
         guard let session = gameStateManager.champSelectSession,
@@ -105,18 +101,36 @@ struct ChampSelectView: View {
         return position.capitalized
     }
 
+    private func resolveChampionName() {
+        guard let session = gameStateManager.champSelectSession,
+              let localCell = session.localPlayerCellId,
+              let me = session.myTeam?.first(where: { $0.cellId == localCell }),
+              me.championId > 0 else {
+            resolvedChampName = "Selecting..."
+            return
+        }
+        let champId = me.championId
+        Task {
+            let name = await DataDragon.shared.championName(for: champId)
+            await MainActor.run { resolvedChampName = name }
+        }
+    }
+
     private func importRunes() {
         guard let session = gameStateManager.champSelectSession,
               let localCell = session.localPlayerCellId,
               let me = session.myTeam?.first(where: { $0.cellId == localCell }),
               me.championId > 0 else { return }
 
-        let champName = DataDragon.shared.championName(for: me.championId)
-        let role = PlayerRole(rawValue: (me.assignedPosition ?? "").lowercased()) ?? .unknown
-
-        if let buildData = PatchDataService.shared.getBuildData(for: champName, role: role),
-           let runes = buildData.recommendedRunes {
-            gameStateManager.importRunes(runes)
+        let champId = me.championId
+        let assignedPos = me.assignedPosition ?? ""
+        Task {
+            let champName = await DataDragon.shared.championName(for: champId)
+            let role = PlayerRole(rawValue: assignedPos.lowercased()) ?? .unknown
+            let buildData = await PatchDataService.shared.getBuildData(for: champName, role: role)
+            if let runes = buildData?.recommendedRunes {
+                await MainActor.run { gameStateManager.importRunes(runes) }
+            }
         }
     }
 }

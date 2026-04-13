@@ -4,11 +4,13 @@ import os
 /// Fetches static game data from Riot's Data Dragon CDN.
 /// Champion names, icons, item images, rune data, summoner spell info.
 ///
+/// Thread-safe via actor isolation. All mutable state is protected.
+///
 /// Data Dragon URL pattern:
 ///   https://ddragon.leagueoflegends.com/cdn/{version}/data/en_US/{file}.json
 ///
 /// Cached locally per patch version.
-class DataDragon {
+actor DataDragon {
     static let shared = DataDragon()
 
     private let logger = Logger(subsystem: "com.macleagueoverlay", category: "DataDragon")
@@ -18,17 +20,17 @@ class DataDragon {
     private var currentVersion: String?
     private var isLoaded = false
 
-    struct ChampionInfo {
-        let id: String      // e.g. "Jinx"
-        let name: String    // e.g. "Jinx"
-        let key: Int        // e.g. 222
-        let title: String   // e.g. "the Loose Cannon"
+    struct ChampionInfo: Sendable {
+        let id: String
+        let name: String
+        let key: Int
+        let title: String
     }
 
-    struct SummonerSpellInfo {
-        let id: String      // e.g. "SummonerFlash"
-        let name: String    // e.g. "Flash"
-        let key: Int        // e.g. 4
+    struct SummonerSpellInfo: Sendable {
+        let id: String
+        let name: String
+        let key: Int
         let cooldown: TimeInterval
     }
 
@@ -44,7 +46,6 @@ class DataDragon {
             let version = try await fetchLatestVersion()
             currentVersion = version
 
-            // Check cache
             let cacheFile = cacheDir.appendingPathComponent("\(version)-champions.json")
             if FileManager.default.fileExists(atPath: cacheFile.path) {
                 let data = try Data(contentsOf: cacheFile)
@@ -57,7 +58,6 @@ class DataDragon {
                 logger.info("Fetched and cached champions (patch \(version))")
             }
 
-            // Summoner spells
             let spellCache = cacheDir.appendingPathComponent("\(version)-summoner.json")
             if FileManager.default.fileExists(atPath: spellCache.path) {
                 let data = try Data(contentsOf: spellCache)
@@ -97,7 +97,7 @@ class DataDragon {
         return latest
     }
 
-    private func fetchJSON(_ urlString: String) async throws -> Data {
+    private nonisolated func fetchJSON(_ urlString: String) async throws -> Data {
         guard let url = URL(string: urlString) else {
             throw DataDragonError.invalidURL
         }

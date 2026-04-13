@@ -20,14 +20,16 @@ class GameDetector {
         NSHomeDirectory() + "/Applications/League of Legends.app",
     ]
 
+    private let backgroundQueue = DispatchQueue(label: "com.hexlens.gamedetector", qos: .utility)
+
     func startWatching() {
         guard !isRunning else { return }
         isRunning = true
         timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
-            self?.checkForProcess()
+            // Run process detection on a background queue to avoid blocking the main thread
+            self?.backgroundQueue.async { self?.checkForProcess() }
         }
-        // Check immediately on start
-        checkForProcess()
+        backgroundQueue.async { [weak self] in self?.checkForProcess() }
     }
 
     func stopWatching() {
