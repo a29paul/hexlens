@@ -9,6 +9,7 @@ import os
 ///   IDLE → LOBBY → CHAMP_SELECT → LOADING → IN_GAME → POST_GAME → IDLE
 class GameStateManager: ObservableObject {
     @Published var state: GameLifecycleState = .idle
+    private var stateVersion: Int = 0  // increments on each transition, cancels deferred actions
     @Published var currentCS: Int = 0
     @Published var csBenchmarkDiff: Int = 0
     @Published var playerRole: PlayerRole = .unknown
@@ -65,6 +66,8 @@ class GameStateManager: ObservableObject {
 
         logger.info("State: \(oldState.rawValue) → \(newState.rawValue)")
         state = newState
+        stateVersion += 1
+        let capturedVersion = stateVersion
 
         switch newState {
         case .idle:
@@ -79,8 +82,9 @@ class GameStateManager: ObservableObject {
             spellTracker?.start()
         case .postGame:
             stopLiveGamePolling()
-            // Return to idle after 3 seconds
+            // Return to idle after 3 seconds (cancelled if state changes before then)
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                guard self?.stateVersion == capturedVersion else { return }
                 self?.transitionTo(.idle)
             }
         }
@@ -91,7 +95,7 @@ class GameStateManager: ObservableObject {
         case (.idle, .lobby), (.idle, .idle): return true
         case (.lobby, .champSelect), (.lobby, .idle): return true
         case (.champSelect, .loading), (.champSelect, .lobby), (.champSelect, .idle): return true
-        case (.loading, .inGame), (.loading, .idle): return true
+        case (.loading, .inGame), (.loading, .idle), (.loading, .lobby): return true
         case (.inGame, .postGame), (.inGame, .idle): return true
         case (.postGame, .idle), (.postGame, .lobby): return true
         default: return false
@@ -102,7 +106,9 @@ class GameStateManager: ObservableObject {
 
     private func handleProcessFound(_ lockfileData: LockfileData) {
         logger.info("LoL process found, connecting to LCU on port \(lockfileData.port)")
-        transitionTo(.lobby)
+        DispatchQueue.main.async { [weak self] in
+            self?.transitionTo(.lobby)
+        }
 
         lcuClient = LCUClient(lockfileData: lockfileData)
         lcuClient?.onChampSelect = { [weak self] session in
@@ -115,14 +121,22 @@ class GameStateManager: ObservableObject {
         }
         lcuClient?.onChampSelectEnd = { [weak self] in
             DispatchQueue.main.async {
-                if self?.state == .champSelect {
-                    self?.transitionTo(.loading)
+                guard self?.state == .champSelect else { return }
+                // Champ select ended — could be game start OR dodge.
+                // Transition to loading; if the live game API doesn't respond
+                // within 30 seconds, it was a dodge — fall back to lobby.
+                self?.transitionTo(.loading)
+                let version = self?.stateVersion ?? 0
+                DispatchQueue.main.asyncAfter(deadline: .now() + 30) { [weak self] in
+                    guard self?.stateVersion == version, self?.state == .loading else { return }
+                    self?.logger.info("Loading timeout — likely a dodge, returning to lobby")
+                    self?.transitionTo(.lobby)
                 }
             }
         }
         lcuClient?.onDodge = { [weak self] in
             DispatchQueue.main.async {
-                if self?.state == .champSelect {
+                if self?.state == .champSelect || self?.state == .loading {
                     self?.transitionTo(.lobby)
                 }
             }
@@ -204,7 +218,7 @@ class GameStateManager: ObservableObject {
 
         // Build enemy spell states — only if we know our team
         guard let myTeam = me?.team, !myTeam.isEmpty else { return }
-        let enemies = data.allPlayers.filter { $0.team != myTeam }
+        let enemies = data.allPlayers.filter { $0.team != myTeam }.sorted { $0.summonerName < $1.summonerName }
         enemySpells = enemies.prefix(5).map { enemy in
             let existing = self.enemySpells.first { $0.championName == enemy.championName }
             return EnemySpellState(

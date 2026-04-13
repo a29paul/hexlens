@@ -13,7 +13,7 @@ import SwiftUI
 class OverlayWindowController {
     private var window: NSWindow?
     private let gameStateManager: GameStateManager
-    private var isInteractiveMode = false
+    private(set) var isInInteractiveMode = false
 
     init(gameStateManager: GameStateManager) {
         self.gameStateManager = gameStateManager
@@ -75,10 +75,10 @@ class OverlayWindowController {
     }
 
     func toggleInteractiveMode() {
-        isInteractiveMode.toggle()
-        window?.ignoresMouseEvents = !isInteractiveMode
+        isInInteractiveMode.toggle()
+        window?.ignoresMouseEvents = !isInInteractiveMode
 
-        if isInteractiveMode {
+        if isInInteractiveMode {
             window?.isMovableByWindowBackground = true
         } else {
             window?.isMovableByWindowBackground = false

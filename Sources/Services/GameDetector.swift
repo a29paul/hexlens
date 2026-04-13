@@ -82,7 +82,7 @@ class GameDetector {
             ?? "/Applications/League of Legends.app"
 
         let allPaths = [customPath] + searchPaths
-        let uniquePaths = Array(Set(allPaths))
+        let uniquePaths = allPaths.reduce(into: [String]()) { if !$0.contains($1) { $0.append($1) } }
 
         for basePath in uniquePaths {
             let lockfilePath = "\(basePath)/Contents/LoL/lockfile"

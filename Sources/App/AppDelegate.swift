@@ -144,7 +144,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func appDidResignActive(_ notification: Notification) {
-        // Hide overlay immediately when LoL loses focus
+        // Don't hide overlay during interactive mode (drag-to-reposition)
+        guard overlayController?.isInInteractiveMode != true else { return }
         overlayController?.hideOverlay()
     }
 

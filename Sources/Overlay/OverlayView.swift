@@ -87,6 +87,11 @@ struct JungleTimersSection: View {
                 }
             }
         }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
+                urgentPulse = 0.4
+            }
+        }
     }
 
     @State private var urgentPulse: Double = 1.0
