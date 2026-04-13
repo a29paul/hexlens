@@ -41,7 +41,9 @@ class GameStateManager: ObservableObject {
             self?.handleProcessFound(lockfileData)
         }
         gameDetector?.onProcessLost = { [weak self] in
-            self?.transitionTo(.idle)
+            DispatchQueue.main.async {
+                self?.transitionTo(.idle)
+            }
         }
 
         gameDetector?.startWatching()
@@ -209,16 +211,16 @@ class GameStateManager: ObservableObject {
         activePlayerName = data.activePlayer.summonerName
         let me = data.allPlayers.first { $0.summonerName == activePlayerName }
 
+        // Role detection (before benchmark so benchmark uses current role)
+        if let position = me?.position {
+            playerRole = PlayerRole(rawValue: position.lowercased()) ?? .unknown
+        }
+
         // CS + benchmark
         currentCS = me?.scores.creepScore ?? 0
         let gameMinutes = Int(data.gameData.gameTime / 60)
         let benchmark = PatchDataService.shared.getCSBenchmark(role: playerRole, gameTimeMinutes: max(gameMinutes, 1))
         csBenchmarkDiff = currentCS - Int(benchmark)
-
-        // Role detection
-        if let position = me?.position {
-            playerRole = PlayerRole(rawValue: position.lowercased()) ?? .unknown
-        }
 
         // Process events for timers
         timerEngine?.processEvents(data.events.Events, gameTime: data.gameData.gameTime)
