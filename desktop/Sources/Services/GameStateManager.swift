@@ -326,20 +326,44 @@ class GameStateManager: ObservableObject {
         enemyTeamGold = enemyPlayers.reduce(0) { $0 + playerItemGold($1) }
         goldLead = allyTeamGold - enemyTeamGold
 
-        // Lane matchups (match by position)
+        // Lane matchups: match by position first, then pair leftovers
         let allyByPos = Dictionary(grouping: allyPlayers2, by: { $0.position }).compactMapValues(\.first)
         let enemyByPos = Dictionary(grouping: enemyPlayers, by: { $0.position }).compactMapValues(\.first)
-        laneMatchups = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"].compactMap { pos in
-            guard let ally = allyByPos[pos], let enemy = enemyByPos[pos] else { return nil }
-            return LaneMatchup(
-                id: pos,
+        var matchups: [LaneMatchup] = []
+        var matchedAllyNames = Set<String>()
+        var matchedEnemyNames = Set<String>()
+
+        for pos in ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"] {
+            if let ally = allyByPos[pos], let enemy = enemyByPos[pos] {
+                matchups.append(LaneMatchup(
+                    id: pos,
+                    position: pos,
+                    allyChampion: ally.championName,
+                    enemyChampion: enemy.championName,
+                    allyGold: playerItemGold(ally),
+                    enemyGold: playerItemGold(enemy)
+                ))
+                matchedAllyNames.insert(ally.championName)
+                matchedEnemyNames.insert(enemy.championName)
+            }
+        }
+
+        // Pair unmatched players (e.g. bot + support mismatch)
+        let unmatchedAllies = allyPlayers2.filter { !matchedAllyNames.contains($0.championName) }
+        let unmatchedEnemies = enemyPlayers.filter { !matchedEnemyNames.contains($0.championName) }
+        for (ally, enemy) in zip(unmatchedAllies, unmatchedEnemies) {
+            let pos = ally.position.isEmpty ? enemy.position : ally.position
+            matchups.append(LaneMatchup(
+                id: "\(ally.championName)-\(enemy.championName)",
                 position: pos,
                 allyChampion: ally.championName,
                 enemyChampion: enemy.championName,
                 allyGold: playerItemGold(ally),
                 enemyGold: playerItemGold(enemy)
-            )
+            ))
         }
+
+        laneMatchups = matchups
 
         // Inhibitor timers from events
         processDragonEvents(data.events.Events, allPlayers: data.allPlayers)
