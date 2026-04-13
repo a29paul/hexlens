@@ -57,15 +57,9 @@ struct CSTrackerSection: View {
 
                 Spacer()
 
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text(csDiffText)
-                        .font(.system(size: 18, weight: .semibold, design: .monospaced))
-                        .foregroundStyle(csDiff >= 0 ? Color.lolGreen : Color.lolRed)
-
-                    Text(goldLeadText)
-                        .font(.system(size: 14, weight: .medium, design: .monospaced))
-                        .foregroundStyle(goldLead >= 0 ? Color.lolGold : Color.lolRed)
-                }
+                Text(csDiffText)
+                    .font(.system(size: 18, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(csDiff >= 0 ? Color.lolGreen : Color.lolRed)
             }
         }
     }
@@ -73,12 +67,6 @@ struct CSTrackerSection: View {
     private var csDiffText: String {
         let sign = csDiff >= 0 ? "+" : ""
         return "\(sign)\(csDiff) vs avg"
-    }
-
-    private var goldLeadText: String {
-        let sign = goldLead >= 0 ? "+" : ""
-        let formatted = abs(goldLead) >= 1000 ? String(format: "%@%.1fk", sign, Double(goldLead) / 1000.0) : "\(sign)\(goldLead)"
-        return "\(formatted) gold"
     }
 }
 
