@@ -14,10 +14,15 @@ class OverlayWindowController {
     private var window: NSWindow?
     private let gameStateManager: GameStateManager
     private(set) var isInInteractiveMode = false
+    private var isTabHeld = false
+    private var isGameActive = false
+    private var keyDownMonitor: Any?
+    private var keyUpMonitor: Any?
 
     init(gameStateManager: GameStateManager) {
         self.gameStateManager = gameStateManager
         createWindow()
+        setupTabMonitor()
     }
 
     private func createWindow() {
@@ -65,19 +70,63 @@ class OverlayWindowController {
         self.window = window
     }
 
+    /// Called when game becomes active. Overlay only shows when Tab is held.
     func showOverlay() {
-        window?.orderFrontRegardless()
-        window?.alphaValue = 0
-        NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.2
-            window?.animator().alphaValue = 1.0
-        }
+        isGameActive = true
+        // Don't show immediately. Wait for Tab press.
     }
 
     func hideOverlay() {
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0.2
-            window?.animator().alphaValue = 0
+        isGameActive = false
+        isTabHeld = false
+        window?.orderOut(nil)
+        window?.alphaValue = 0
+    }
+
+    private func setupTabMonitor() {
+        // Monitor global key events for Tab (keyCode 48)
+        // Tab down → show overlay, Tab up → hide overlay
+        keyDownMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard event.keyCode == 48, !event.isARepeat else { return }
+            self?.handleTabDown()
+        }
+        keyUpMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyUp) { [weak self] event in
+            guard event.keyCode == 48 else { return }
+            self?.handleTabUp()
+        }
+
+        // Also monitor local events (when our app is frontmost, e.g. clicking overlay)
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            if event.keyCode == 48, !event.isARepeat {
+                self?.handleTabDown()
+            }
+            return event
+        }
+        NSEvent.addLocalMonitorForEvents(matching: .keyUp) { [weak self] event in
+            if event.keyCode == 48 {
+                self?.handleTabUp()
+            }
+            return event
+        }
+    }
+
+    private func handleTabDown() {
+        guard isGameActive, !isTabHeld else { return }
+        isTabHeld = true
+        window?.orderFrontRegardless()
+        window?.alphaValue = 0
+        NSAnimationContext.runAnimationGroup { [weak self] context in
+            context.duration = 0.1
+            self?.window?.animator().alphaValue = 1.0
+        }
+    }
+
+    private func handleTabUp() {
+        guard isTabHeld else { return }
+        isTabHeld = false
+        NSAnimationContext.runAnimationGroup({ [weak self] context in
+            context.duration = 0.1
+            self?.window?.animator().alphaValue = 0
         }, completionHandler: { [weak self] in
             self?.window?.orderOut(nil)
         })
