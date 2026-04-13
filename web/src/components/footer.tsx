@@ -17,7 +17,7 @@ export function Footer() {
           <GithubIcon className="w-5 h-5" />
         </a>
       </div>
-      <p>
+      <p className="mb-2">
         Hexlens is{" "}
         <a
           href="https://github.com/a29paul/hexlens"
@@ -25,7 +25,20 @@ export function Footer() {
         >
           open source
         </a>
-        . Not affiliated with Riot Games.
+        . Compliant with{" "}
+        <a
+          href="https://support-leagueoflegends.riotgames.com/hc/en-us/articles/225266848-Third-Party-Applications"
+          className="text-[#c8aa6e] hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Riot&apos;s Third Party Policy
+        </a>
+        .
+      </p>
+      <p className="text-white/20 text-xs">
+        Not affiliated with or endorsed by Riot Games. League of Legends is a
+        trademark of Riot Games, Inc.
       </p>
     </footer>
   );

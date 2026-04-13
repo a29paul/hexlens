@@ -33,6 +33,21 @@ Requires macOS 14+ and Xcode Command Line Tools.
 
 The overlay requires LoL to run in **borderless windowed** mode (not fullscreen).
 
+## Riot Games compliance
+
+Hexlens is fully compliant with [Riot's Third Party Application Policy](https://support-leagueoflegends.riotgames.com/hc/en-us/articles/225266848-Third-Party-Applications). It follows the same rules as approved tools like Blitz and Porofessor:
+
+- **No obfuscated data.** Hexlens only reads data from Riot's own APIs (Live Client Data API and League Client API). It does not read game memory, inject code, or access hidden information.
+- **No automation during gameplay.** Spell tracking is manual (you press a hotkey). The app never plays the game for you.
+- **No decision-making.** CS benchmarks show static averages, not real-time coaching or "you should do X" prompts.
+- **No vision or map hacks.** The overlay displays the same information available to you in-game.
+- **No ads.** Free and open source. No monetization of any kind.
+- **No player tracking.** Hexlens does not collect, store, or transmit any player data.
+
+Rune import during champion select writes to the League Client API, the same mechanism used by Blitz, Porofessor, and U.GG.
+
+> **Note:** The League Client API is [not officially supported](https://developer.riotgames.com/docs/lol) for third-party use. Riot tolerates it (every major companion app uses it) but provides no stability guarantees. Hexlens will never get your account banned, but API changes in a patch could temporarily break features until we update.
+
 ## Project structure
 
 ```
@@ -41,8 +56,8 @@ hexlens/
 │   ├── Sources/      App, Overlay, ChampSelect, API, Models, Services
 │   ├── Tests/        84 unit tests
 │   └── Package.swift
-├── web/              Landing page (GitHub Pages)
-└── .github/          CI: tests, releases, website deploy
+├── web/              Next.js landing page (Vercel)
+└── .github/          CI: tests, releases
 ```
 
 ## Contributing
@@ -57,3 +72,7 @@ swift test
 ## License
 
 MIT
+
+---
+
+Hexlens is not affiliated with or endorsed by Riot Games. League of Legends is a trademark of Riot Games, Inc.
