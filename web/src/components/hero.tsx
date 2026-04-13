@@ -43,8 +43,9 @@ export function Hero() {
         </h1>
 
         <p className="text-lg sm:text-xl text-white/50 max-w-xl mx-auto mb-10 leading-relaxed">
-          CS tracker, jungle timers, spell tracking, rune import. Native Swift.
-          Zero Overwolf. The first League overlay built for macOS.
+          CS tracker, jungle timers, spell tracking, ally ults, gold lead,
+          rune import. Native Swift. Zero Overwolf. The first League overlay
+          built for macOS.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

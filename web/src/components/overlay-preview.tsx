@@ -99,6 +99,61 @@ export function OverlayPreview() {
             ))}
           </div>
         </OverlayCard>
+
+        {/* Ally Tracker */}
+        <OverlayCard delay={0.3}>
+          <SectionLabel>Team</SectionLabel>
+          <div className="space-y-1.5">
+            {[
+              { champ: "Garen", lvl: 11, ult: true, dead: false },
+              { champ: "Lee Sin", lvl: 10, ult: true, dead: false },
+              { champ: "Ahri", lvl: 11, ult: false, dead: true },
+              { champ: "Thresh", lvl: 9, ult: true, dead: false },
+            ].map((a) => (
+              <div
+                key={a.champ}
+                className="flex items-center gap-2 text-xs"
+              >
+                <span
+                  className={`w-16 ${a.dead ? "text-[#f87171]/50" : "text-white/40"}`}
+                >
+                  {a.champ}
+                </span>
+                <span
+                  className={`w-4 h-4 rounded text-[9px] font-bold flex items-center justify-center ${
+                    a.ult
+                      ? "bg-[#4ade80]/80 text-black"
+                      : "bg-white/[0.06] text-white/20"
+                  }`}
+                >
+                  R
+                </span>
+                <span className="text-white/30 tabular-nums">
+                  Lv{a.lvl}
+                </span>
+                {a.dead && (
+                  <span className="text-[#f87171] text-[9px] font-semibold ml-auto">
+                    DEAD
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </OverlayCard>
+
+        {/* Gold Lead */}
+        <OverlayCard delay={0.4}>
+          <SectionLabel>Gold Lead</SectionLabel>
+          <div className="flex items-baseline justify-between">
+            <span className="text-2xl font-extrabold tabular-nums text-[#c8aa6e]">
+              +2.4k
+            </span>
+            <span className="text-xs text-[#4ade80]">ahead</span>
+          </div>
+          <div className="mt-3 h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+            <div className="h-full w-[62%] bg-gradient-to-r from-[#c8aa6e] to-[#4ade80] rounded-full" />
+          </div>
+        </OverlayCard>
       </div>
     </section>
   );

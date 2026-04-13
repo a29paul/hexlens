@@ -8,6 +8,9 @@ import {
   Timer,
   Sparkles,
   Gamepad2,
+  Users,
+  TrendingUp,
+  Building2,
 } from "lucide-react";
 
 const features = [
@@ -27,25 +30,43 @@ const features = [
     icon: BarChart3,
     title: "Role-adaptive CS",
     description:
-      "Benchmarks that know the difference between a jungler and an ADC.",
+      "Benchmarks that know the difference between a jungler and an ADC. Shows your CS diff vs rank average in real time.",
   },
   {
     icon: Timer,
-    title: "Jungle Timers",
+    title: "Jungle & Inhib Timers",
     description:
-      "Dragon, Baron, buffs. Respawn countdowns from live game events.",
+      "Dragon, Baron, buff respawns, and inhibitor countdowns. All tracked from live game events. Pulses red when under 30s.",
   },
   {
     icon: Sparkles,
     title: "Rune Import",
     description:
-      "One click in champ select. Recommended runes written directly to your client.",
+      "One click in champ select. Recommended runes written directly to your client via the LCU API.",
   },
   {
     icon: Gamepad2,
     title: "Spell Tracking",
     description:
-      "F1-F10 hotkeys to mark enemy summoner spells. Cooldowns auto-calculated.",
+      "F1-F10 hotkeys to mark enemy summoner spells. Cooldowns auto-calculated with CDR. Same feature Blitz and Porofessor ship.",
+  },
+  {
+    icon: Users,
+    title: "Ally Tracker",
+    description:
+      "See your teammates' champion, level, ult readiness, and alive/dead status at a glance. Know when to engage.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Gold Lead",
+    description:
+      "Live team gold differential. Know if you're ahead or behind without checking the scoreboard.",
+  },
+  {
+    icon: Building2,
+    title: "Inhibitor Timers",
+    description:
+      "Tracks enemy inhibitor respawns (5 min countdown). Never miss the window to push and end.",
   },
 ];
 
@@ -56,10 +77,20 @@ export function Features() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-3xl sm:text-4xl font-bold text-center mb-16 tracking-tight"
+        className="text-3xl sm:text-4xl font-bold text-center mb-4 tracking-tight"
       >
-        Everything you need, nothing you don&apos;t.
+        Everything Blitz and Porofessor do.
+        <br />
+        <span className="text-white/40">On Mac. For free.</span>
       </motion.h2>
+      <motion.p
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="text-center text-white/35 mb-16 max-w-lg mx-auto"
+      >
+        9 features. Zero Overwolf dependency. Native performance.
+      </motion.p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {features.map((feature, i) => (
