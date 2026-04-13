@@ -18,27 +18,29 @@ class GameStateManager: ObservableObject {
     @Published var allies: [AllyState] = []
     @Published var inhibitorTimers: [InhibitorTimer] = []
     @Published var goldLead: Int = 0  // positive = our team ahead
+    @Published var allyTeamGold: Int = 0
+    @Published var enemyTeamGold: Int = 0
+    @Published var laneMatchups: [LaneMatchup] = []
     @Published var champSelectSession: ChampSelectSession?
     @Published var activePlayerName: String = ""
+    private var lastProcessedEnemies: [LivePlayer] = []
+    /// Dragon buffs per team: ["ORDER": ["Cloud", "Cloud", "Fire"], "CHAOS": ["Water"]]
+    private var dragonsByTeam: [String: [String]] = [:]
+    private var processedDragonEventIDs: Set<Int> = []
+    /// Cached ult cooldowns from DataDragon actor, keyed by champion name → [rank1CD, rank2CD, rank3CD]
+    private var cachedUltCooldowns: [String: [Double]] = [:]
 
     private let logger = Logger(subsystem: "com.macleagueoverlay", category: "GameState")
     private var gameDetector: GameDetector?
     private var lcuClient: LCUClient?
     private var liveGameClient: LiveGameClient?
     private var timerEngine: TimerEngine?
-    private var spellTracker: SpellTracker?
     private var pollTimer: Timer?
     private var cancellables = Set<AnyCancellable>()
 
     func start() {
         gameDetector = GameDetector()
         timerEngine = TimerEngine()
-        spellTracker = SpellTracker()
-
-        // Wire spell tracker to update enemy spell cooldowns
-        spellTracker?.onSpellUsed = { [weak self] enemyIndex, spellIndex in
-            self?.markSpellUsed(enemyIndex: enemyIndex, spellIndex: spellIndex)
-        }
 
         gameDetector?.onProcessFound = { [weak self] lockfileData in
             self?.handleProcessFound(lockfileData)
@@ -55,6 +57,8 @@ class GameStateManager: ObservableObject {
         Task {
             await DataDragon.shared.load()
             await PatchDataService.shared.load()
+            // Cache ult cooldowns for synchronous access during gameplay
+            await self.refreshUltCooldownCache()
         }
 
         logger.info("GameStateManager started, watching for LoL process")
@@ -84,7 +88,7 @@ class GameStateManager: ObservableObject {
         case .loading:
             startLiveGamePolling()
         case .inGame:
-            spellTracker?.start()
+            break  // spell tracking is now click-based in the overlay UI
         case .postGame:
             stopLiveGamePolling()
             // Return to idle after 3 seconds (cancelled if state changes before then)
@@ -98,7 +102,7 @@ class GameStateManager: ObservableObject {
     private func isValidTransition(from: GameLifecycleState, to: GameLifecycleState) -> Bool {
         switch (from, to) {
         case (.idle, .lobby), (.idle, .idle): return true
-        case (.lobby, .champSelect), (.lobby, .idle): return true
+        case (.lobby, .champSelect), (.lobby, .loading), (.lobby, .idle): return true
         case (.champSelect, .loading), (.champSelect, .lobby), (.champSelect, .idle): return true
         case (.loading, .inGame), (.loading, .idle), (.loading, .lobby): return true
         case (.inGame, .postGame), (.inGame, .idle): return true
@@ -113,6 +117,8 @@ class GameStateManager: ObservableObject {
         logger.info("LoL process found, connecting to LCU on port \(lockfileData.port)")
         DispatchQueue.main.async { [weak self] in
             self?.transitionTo(.lobby)
+            // Check if a game is already in progress (app launched mid-game)
+            self?.checkForActiveGame()
         }
 
         lcuClient = LCUClient(lockfileData: lockfileData)
@@ -156,6 +162,23 @@ class GameStateManager: ObservableObject {
         lcuClient?.connect()
     }
 
+    /// Check if a game is already in progress (handles app launched mid-game).
+    /// Probes the Live Client Data API directly. If it responds, skip straight
+    /// to LOADING → IN_GAME without waiting for LCU champ select events.
+    private func checkForActiveGame() {
+        let client = LiveGameClient()
+        client.fetchAllGameData { [weak self] result in
+            DispatchQueue.main.async {
+                if case .success = result {
+                    self?.logger.info("Active game detected on startup, jumping to loading")
+                    if self?.state == .lobby || self?.state == .idle {
+                        self?.transitionTo(.loading)
+                    }
+                }
+            }
+        }
+    }
+
     // MARK: - Live Game Polling
 
     private func startLiveGamePolling() {
@@ -174,11 +197,24 @@ class GameStateManager: ObservableObject {
     private var consecutiveFailures = 0
     private var backoffInterval: TimeInterval = 1.0
 
+    private func debugLog(_ msg: String) {
+        let line = "[\(Date())] [GSM] \(msg)\n"
+        if let data = line.data(using: .utf8) {
+            let logFile = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("hexlens-debug.log")
+            let handle = try? FileHandle(forWritingTo: logFile)
+            handle?.seekToEndOfFile()
+            handle?.write(data)
+            handle?.closeFile()
+        }
+    }
+
     private func pollLiveGame() {
         liveGameClient?.fetchAllGameData { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
+                    let timersStr = self?.jungleTimers.map { "\($0.id)=\($0.displayValue)" }.joined(separator: ", ") ?? "none"
+                    self?.debugLog("poll: time=\(Int(data.gameData.gameTime))s cs=\(self?.currentCS ?? 0) gold=\(self?.goldLead ?? 0) timers=[\(timersStr)] enemies=\(self?.enemySpells.count ?? 0)")
                     let wasInBackoff = (self?.consecutiveFailures ?? 0) >= 3
                     self?.consecutiveFailures = 0
                     self?.backoffInterval = 1.0
@@ -194,6 +230,7 @@ class GameStateManager: ObservableObject {
                         }
                     }
                 case .failure(let error):
+                    self?.debugLog("poll FAILED: \(error)")
                     self?.handlePollFailure(error)
                 }
             }
@@ -239,6 +276,7 @@ class GameStateManager: ObservableObject {
         // Build enemy spell states — only if we know our team
         guard let myTeam = me?.team, !myTeam.isEmpty else { return }
         let enemies = data.allPlayers.filter { $0.team != myTeam }.sorted { $0.summonerName < $1.summonerName }
+        lastProcessedEnemies = enemies
         enemySpells = enemies.prefix(5).map { enemy in
             let existing = self.enemySpells.first { $0.championName == enemy.championName }
             return EnemySpellState(
@@ -251,7 +289,12 @@ class GameStateManager: ObservableObject {
                 spell2: existing?.spell2 ?? SpellCooldownState(
                     spellName: enemy.summonerSpells.summonerSpellTwo.displayName,
                     baseCooldown: spellBaseCooldown(enemy.summonerSpells.summonerSpellTwo.displayName)
-                )
+                ),
+                ult: existing?.ult ?? SpellCooldownState(
+                    spellName: "R",
+                    baseCooldown: ultBaseCooldown(championName: enemy.championName, level: enemy.level)
+                ),
+                level: enemy.level
             )
         }
 
@@ -271,15 +314,64 @@ class GameStateManager: ObservableObject {
             )
         }
 
-        // Gold lead (our team total gold vs enemy team total gold)
-        let allyGold = data.allPlayers.filter { $0.team == myTeam }
-            .reduce(0) { $0 + $1.scores.kills * 300 + $1.scores.assists * 150 + $1.scores.creepScore * 20 }
-        let enemyGold = data.allPlayers.filter { $0.team != myTeam }
-            .reduce(0) { $0 + $1.scores.kills * 300 + $1.scores.assists * 150 + $1.scores.creepScore * 20 }
-        goldLead = allyGold - enemyGold
+        // Gold tracking from actual item prices
+        func playerItemGold(_ player: LivePlayer) -> Int {
+            (player.items ?? []).reduce(0) { $0 + ($1.price ?? 0) * $1.count }
+        }
+
+        let allyPlayers2 = data.allPlayers.filter { $0.team == myTeam }
+        let enemyPlayers = data.allPlayers.filter { $0.team != myTeam }
+
+        allyTeamGold = allyPlayers2.reduce(0) { $0 + playerItemGold($1) }
+        enemyTeamGold = enemyPlayers.reduce(0) { $0 + playerItemGold($1) }
+        goldLead = allyTeamGold - enemyTeamGold
+
+        // Lane matchups (match by position)
+        let allyByPos = Dictionary(grouping: allyPlayers2, by: { $0.position }).compactMapValues(\.first)
+        let enemyByPos = Dictionary(grouping: enemyPlayers, by: { $0.position }).compactMapValues(\.first)
+        laneMatchups = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"].compactMap { pos in
+            guard let ally = allyByPos[pos], let enemy = enemyByPos[pos] else { return nil }
+            return LaneMatchup(
+                id: pos,
+                position: pos,
+                allyChampion: ally.championName,
+                enemyChampion: enemy.championName,
+                allyGold: playerItemGold(ally),
+                enemyGold: playerItemGold(enemy)
+            )
+        }
 
         // Inhibitor timers from events
+        processDragonEvents(data.events.Events, allPlayers: data.allPlayers)
         processInhibitorEvents(data.events.Events, gameTime: data.gameData.gameTime)
+    }
+
+    private func processDragonEvents(_ events: [LiveEvents.LiveEvent], allPlayers: [LivePlayer]) {
+        for event in events {
+            guard event.EventName == "DragonKill",
+                  !processedDragonEventIDs.contains(event.EventID),
+                  let killerName = event.KillerName,
+                  let dragonType = event.DragonType else { continue }
+
+            processedDragonEventIDs.insert(event.EventID)
+
+            // Find which team the killer is on
+            // KillerName can be "ChampName Bot" for bots or summoner name for players
+            var killerTeam: String?
+            for player in allPlayers {
+                if player.summonerName == killerName
+                    || player.championName == killerName
+                    || killerName.hasPrefix(player.championName) {
+                    killerTeam = player.team
+                    break
+                }
+            }
+
+            if let team = killerTeam {
+                dragonsByTeam[team, default: []].append(dragonType)
+                logger.info("Dragon \(dragonType) taken by \(team) (total: \(self.dragonsByTeam[team]?.count ?? 0))")
+            }
+        }
     }
 
     private func processInhibitorEvents(_ events: [LiveEvents.LiveEvent], gameTime: Double) {
@@ -323,6 +415,16 @@ class GameStateManager: ObservableObject {
         logger.info("Marked \(enemy.championName) spell \(spellIndex + 1) on cooldown (\(spellIndex == 0 ? enemy.spell1.baseCooldown : enemy.spell2.baseCooldown)s)")
     }
 
+    func markUltUsed(enemyIndex: Int) {
+        guard enemyIndex < enemySpells.count else { return }
+        var enemy = enemySpells[enemyIndex]
+        let cd = ultBaseCooldown(championName: enemy.championName, level: enemy.level)
+        enemy.ult.baseCooldown = cd
+        enemy.ult.cooldownEnd = Date().addingTimeInterval(cd)
+        enemySpells[enemyIndex] = enemy
+        logger.info("Marked \(enemy.championName) ult on cooldown (\(cd)s)")
+    }
+
     // MARK: - Rune Import
 
     func importRunes(_ page: RunePage) {
@@ -344,7 +446,6 @@ class GameStateManager: ObservableObject {
 
     private func cleanup() {
         stopLiveGamePolling()
-        spellTracker?.stop()
         lcuClient?.disconnect()
         lcuClient = nil
         currentCS = 0
@@ -354,6 +455,12 @@ class GameStateManager: ObservableObject {
         allies = []
         inhibitorTimers = []
         goldLead = 0
+        allyTeamGold = 0
+        enemyTeamGold = 0
+        laneMatchups = []
+        lastProcessedEnemies = []
+        dragonsByTeam = [:]
+        processedDragonEventIDs = []
         jungleTimers = GameStateManager.defaultTimers()
         champSelectSession = nil
         consecutiveFailures = 0
@@ -371,6 +478,14 @@ class GameStateManager: ObservableObject {
         ]
     }
 
+    private func refreshUltCooldownCache() async {
+        let allCDs = await DataDragon.shared.allUltCooldowns()
+        await MainActor.run {
+            cachedUltCooldowns = allCDs
+            logger.info("Cached ult cooldowns for \(allCDs.count) champions")
+        }
+    }
+
     private func spellBaseCooldown(_ name: String) -> TimeInterval {
         switch name.lowercased() {
         case "flash": return 300
@@ -384,5 +499,97 @@ class GameStateManager: ObservableObject {
         case "smite": return 90
         default: return 300
         }
+    }
+
+    /// Ult cooldown based on champion-specific base CD at ult rank, reduced by
+    /// estimated ability haste from the enemy's items.
+    ///
+    /// Formula: effective_cd = base_cd * (100 / (100 + ability_haste))
+    /// Ult cooldown = Meraki base CD × ability haste reduction from items.
+    /// Base CD comes from Meraki (170+ champions, updated per patch).
+    /// Ability haste estimated from enemy's visible items.
+    private func ultBaseCooldown(championName: String, level: Int) -> TimeInterval {
+        let rank = level >= 16 ? 3 : level >= 11 ? 2 : 1
+
+        // Get base CD from Meraki via DataDragon (synchronous read from cached data)
+        // DataDragon is an actor, so we can't await here. Use the cached value
+        // that was set during processLiveGameData's previous cycle.
+        let baseCD = cachedUltCooldowns[championName]?[safe: rank - 1] ?? [120, 100, 80][rank - 1]
+
+        // Estimate ability haste from enemy items
+        let enemyPlayer = lastProcessedEnemies.first { $0.championName == championName }
+        let abilityHaste = estimateAbilityHaste(items: enemyPlayer?.items ?? [])
+
+        // effective_cd = base_cd * (100 / (100 + AH))
+        let effectiveCD = baseCD * (100.0 / (100.0 + Double(abilityHaste)))
+        return effectiveCD
+    }
+
+    /// Estimate ability haste from a player's item list.
+    /// Uses known item → AH mappings for common items.
+    private func estimateAbilityHaste(items: [LivePlayer.PlayerItem]) -> Int {
+        var totalAH = 0
+        for item in items {
+            totalAH += itemAbilityHaste(itemName: item.displayName)
+        }
+        return totalAH
+    }
+
+    /// Known ability haste values for common items (Season 15 approximate).
+    /// Safe array subscript that returns nil instead of crashing on out-of-bounds.
+    private func itemAbilityHaste(itemName: String) -> Int {
+        let ahByItem: [String: Int] = [
+            // Mage items
+            "Luden's Echo": 25,
+            "Liandry's Torment": 25,
+            "Blackfire Torch": 25,
+            "Cosmic Drive": 30,
+            "Malignance": 25,
+            "Horizon Focus": 15,
+            "Banshee's Veil": 15,
+            "Zhonya's Hourglass": 15,
+
+            // AD items
+            "Black Cleaver": 25,
+            "Trinity Force": 25,
+            "Essence Reaver": 20,
+            "Navori Flickerblade": 20,
+            "Spear of Shojin": 20,
+            "Maw of Malmortius": 15,
+            "Death's Dance": 15,
+            "Serylda's Grudge": 15,
+
+            // Support items
+            "Redemption": 20,
+            "Locket of the Iron Solari": 20,
+            "Shurelya's Battlesong": 25,
+            "Moonstone Renewer": 25,
+            "Staff of Flowing Water": 15,
+            "Mikael's Blessing": 15,
+            "Imperial Mandate": 25,
+
+            // Tank items
+            "Frozen Heart": 20,
+            "Spirit Visage": 15,
+            "Force of Nature": 10,
+            "Warmog's Armor": 10,
+            "Iceborn Gauntlet": 25,
+            "Jak'Sho, The Protean": 15,
+            "Sunfire Aegis": 15,
+            "Hollow Radiance": 15,
+            "Unending Despair": 15,
+
+            // Boots
+            "Ionian Boots of Lucidity": 20,
+
+            // Components
+            "Kindlegem": 10,
+            "Glacial Buckler": 10,
+            "Lost Chapter": 10,
+            "Fiendish Codex": 10,
+            "Caufield's Warhammer": 10,
+        ]
+
+        return ahByItem[itemName] ?? 0
     }
 }

@@ -6,7 +6,8 @@ struct OverlayView: View {
     @AppStorage("overlayOpacity") private var overlayOpacity: Double = 0.75
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 16) {
+            // CS + Gold header
             CSTrackerSection(
                 currentCS: gameStateManager.currentCS,
                 csDiff: gameStateManager.csBenchmarkDiff,
@@ -14,24 +15,24 @@ struct OverlayView: View {
                 goldLead: gameStateManager.goldLead
             )
 
-            AllyTrackerSection(allies: gameStateManager.allies)
+            // Gold scoreboard
+            GoldScoreboard(
+                allyTeamGold: gameStateManager.allyTeamGold,
+                enemyTeamGold: gameStateManager.enemyTeamGold,
+                matchups: gameStateManager.laneMatchups
+            )
 
-            JungleTimersSection(timers: gameStateManager.jungleTimers)
-
-            if !gameStateManager.inhibitorTimers.isEmpty {
-                InhibitorTimerSection(timers: gameStateManager.inhibitorTimers)
-            }
-
-            SpellTrackerSection(spells: gameStateManager.enemySpells)
+            // Enemy spells + ults
+            SpellTrackerSection(gameStateManager: gameStateManager)
         }
-        .padding(16)
-        .frame(width: 280)
+        .padding(24)
+        .frame(width: 420)
         .background(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 12)
                 .fill(Color.black.opacity(overlayOpacity))
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.white.opacity(0.1), lineWidth: 1)
         )
     }
@@ -46,23 +47,23 @@ struct CSTrackerSection: View {
     let goldLead: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             SectionHeader(title: role == .jungle ? "JUNGLE CS" : "CS TRACKER")
 
             HStack(alignment: .firstTextBaseline) {
                 Text("\(currentCS)")
-                    .font(.system(size: 24, weight: .bold, design: .monospaced))
+                    .font(.system(size: 42, weight: .bold, design: .monospaced))
                     .foregroundStyle(.white)
 
                 Spacer()
 
-                VStack(alignment: .trailing, spacing: 2) {
+                VStack(alignment: .trailing, spacing: 4) {
                     Text(csDiffText)
-                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                        .font(.system(size: 18, weight: .semibold, design: .monospaced))
                         .foregroundStyle(csDiff >= 0 ? Color.lolGreen : Color.lolRed)
 
                     Text(goldLeadText)
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
+                        .font(.system(size: 14, weight: .medium, design: .monospaced))
                         .foregroundStyle(goldLead >= 0 ? Color.lolGold : Color.lolRed)
                 }
             }
@@ -81,61 +82,38 @@ struct CSTrackerSection: View {
     }
 }
 
-// MARK: - Jungle Timers
-
-struct JungleTimersSection: View {
-    let timers: [JungleTimer]
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            SectionHeader(title: "JUNGLE TIMERS")
-
-            ForEach(timers) { timer in
-                HStack {
-                    Text(timer.icon)
-                        .font(.system(size: 12))
-                    Text(timer.name)
-                        .font(.system(size: 12))
-                        .foregroundStyle(Color.lolTextSecondary)
-
-                    Spacer()
-
-                    Text(timer.displayValue)
-                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
-                        .foregroundStyle(timer.color)
-                        .opacity(timer.isUrgent ? urgentPulse : 1.0)
-                }
-            }
-        }
-        .onAppear {
-            withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
-                urgentPulse = 0.4
-            }
-        }
-    }
-
-    @State private var urgentPulse: Double = 1.0
-}
-
 // MARK: - Spell Tracker
 
 struct SpellTrackerSection: View {
-    let spells: [EnemySpellState]
+    @ObservedObject var gameStateManager: GameStateManager
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            SectionHeader(title: "ENEMY SUMMONER SPELLS")
+        VStack(alignment: .leading, spacing: 10) {
+            SectionHeader(title: "ENEMY SPELLS (click to track)")
 
-            ForEach(spells) { spell in
-                HStack {
-                    Text(spell.championName)
-                        .font(.system(size: 11))
-                        .foregroundStyle(Color.lolTextSecondary)
-                        .frame(width: 60, alignment: .leading)
+            ForEach(Array(gameStateManager.enemySpells.enumerated()), id: \.element.id) { index, enemy in
+                HStack(spacing: 8) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(enemy.championName.prefix(10))
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.85))
+                        Text("Lv\(enemy.level)")
+                            .font(.system(size: 12, weight: .medium, design: .monospaced))
+                            .foregroundStyle(Color.lolTextSecondary)
+                    }
+                    .frame(width: 100, alignment: .leading)
 
-                    HStack(spacing: 4) {
-                        SpellBadge(spell: spell.spell1)
-                        SpellBadge(spell: spell.spell2)
+                    Spacer()
+
+                    SpellBadge(spell: enemy.ult, label: "R", size: .large) {
+                        gameStateManager.markUltUsed(enemyIndex: index)
+                    }
+
+                    SpellBadge(spell: enemy.spell1, label: nil, size: .medium) {
+                        gameStateManager.markSpellUsed(enemyIndex: index, spellIndex: 0)
+                    }
+                    SpellBadge(spell: enemy.spell2, label: nil, size: .medium) {
+                        gameStateManager.markSpellUsed(enemyIndex: index, spellIndex: 1)
                     }
                 }
             }
@@ -145,16 +123,59 @@ struct SpellTrackerSection: View {
 
 struct SpellBadge: View {
     let spell: SpellCooldownState
+    var label: String?
+    var size: BadgeSize = .medium
+    let onTap: () -> Void
+
+    enum BadgeSize {
+        case small, medium, large
+        var dimension: CGFloat {
+            switch self {
+            case .small: return 28
+            case .medium: return 34
+            case .large: return 38
+            }
+        }
+        var fontSize: CGFloat {
+            switch self {
+            case .small: return 11
+            case .medium: return 13
+            case .large: return 15
+            }
+        }
+    }
 
     var body: some View {
-        Text(spell.displayText)
-            .font(.system(size: 9, weight: .semibold, design: .monospaced))
-            .frame(width: 22, height: 22)
-            .background(
-                RoundedRectangle(cornerRadius: 3)
-                    .fill(spell.isReady ? Color.lolGreen : Color(white: 0.2))
-            )
-            .foregroundStyle(spell.isReady ? .black : Color.lolRed)
+        Button(action: onTap) {
+            Text(displayText)
+                .font(.system(size: size.fontSize, weight: .bold, design: .monospaced))
+                .frame(width: size.dimension, height: size.dimension)
+                .background(
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(backgroundColor)
+                )
+                .foregroundStyle(foregroundColor)
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var displayText: String {
+        if spell.isReady { return label ?? "✓" }
+        guard let end = spell.cooldownEnd else { return label ?? "✓" }
+        let remaining = Int(end.timeIntervalSinceNow)
+        if remaining <= 0 { return label ?? "✓" }
+        return "\(remaining)"
+    }
+
+    private var backgroundColor: Color {
+        if spell.isReady {
+            return label == "R" ? Color.lolGold.opacity(0.9) : Color.lolGreen
+        }
+        return Color(white: 0.15)
+    }
+
+    private var foregroundColor: Color {
+        spell.isReady ? .black : Color.lolRed
     }
 }
 
@@ -165,38 +186,35 @@ struct AllyTrackerSection: View {
 
     var body: some View {
         if !allies.isEmpty {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
                 SectionHeader(title: "TEAM")
 
                 ForEach(allies) { ally in
-                    HStack(spacing: 6) {
-                        // Champion name
-                        Text(ally.championName.prefix(8))
-                            .font(.system(size: 11))
-                            .foregroundStyle(ally.isDead ? Color.lolRed.opacity(0.5) : Color.lolTextSecondary)
-                            .frame(width: 60, alignment: .leading)
+                    HStack(spacing: 8) {
+                        Text(ally.championName.prefix(10))
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(ally.isDead ? Color.lolRed.opacity(0.5) : .white.opacity(0.7))
+                            .frame(width: 90, alignment: .leading)
 
                         // Ult indicator
                         Text(ally.ultReady ? "R" : "·")
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
-                            .frame(width: 16, height: 16)
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .frame(width: 22, height: 22)
                             .background(
-                                RoundedRectangle(cornerRadius: 3)
+                                RoundedRectangle(cornerRadius: 4)
                                     .fill(ally.ultReady ? Color.lolGreen.opacity(0.8) : Color(white: 0.15))
                             )
                             .foregroundStyle(ally.ultReady ? .black : Color(white: 0.3))
 
-                        // Level
                         Text("Lv\(ally.level)")
-                            .font(.system(size: 10, design: .monospaced))
+                            .font(.system(size: 12, weight: .medium, design: .monospaced))
                             .foregroundStyle(Color.lolTextSecondary)
 
                         Spacer()
 
-                        // Dead indicator
                         if ally.isDead {
                             Text("DEAD")
-                                .font(.system(size: 9, weight: .semibold))
+                                .font(.system(size: 11, weight: .bold))
                                 .foregroundStyle(Color.lolRed)
                         }
                     }
@@ -206,30 +224,115 @@ struct AllyTrackerSection: View {
     }
 }
 
-// MARK: - Inhibitor Timers
+// MARK: - Gold Scoreboard
 
-struct InhibitorTimerSection: View {
-    let timers: [InhibitorTimer]
+struct GoldScoreboard: View {
+    let allyTeamGold: Int
+    let enemyTeamGold: Int
+    let matchups: [LaneMatchup]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            SectionHeader(title: "INHIBITORS")
+        VStack(alignment: .leading, spacing: 10) {
+            SectionHeader(title: "GOLD")
 
-            ForEach(timers) { timer in
-                HStack {
-                    Text("🏛")
-                        .font(.system(size: 12))
-                    Text("\(timer.lane.capitalized)")
-                        .font(.system(size: 12))
-                        .foregroundStyle(Color.lolTextSecondary)
+            // Team totals
+            HStack {
+                Text("Your team")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(Color.lolGreen.opacity(0.8))
+                Spacer()
+                Text(formatGold(allyTeamGold))
+                    .font(.system(size: 15, weight: .bold, design: .monospaced))
+                    .foregroundStyle(.white)
+                Text("vs")
+                    .font(.system(size: 11))
+                    .foregroundStyle(Color.lolTextSecondary)
+                Text(formatGold(enemyTeamGold))
+                    .font(.system(size: 15, weight: .bold, design: .monospaced))
+                    .foregroundStyle(.white)
+                Spacer()
+                Text("Enemy")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(Color.lolRed.opacity(0.8))
+            }
 
-                    Spacer()
+            // Total diff
+            let totalDiff = allyTeamGold - enemyTeamGold
+            HStack {
+                Spacer()
+                Text(diffText(totalDiff))
+                    .font(.system(size: 18, weight: .bold, design: .monospaced))
+                    .foregroundStyle(totalDiff >= 0 ? Color.lolGold : Color.lolRed)
+                Spacer()
+            }
 
-                    Text(timer.displayValue)
-                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
-                        .foregroundStyle(Color.lolRed)
+            // Lane matchups
+            if !matchups.isEmpty {
+                Divider().background(Color.white.opacity(0.06))
+
+                ForEach(matchups) { lane in
+                    HStack(spacing: 4) {
+                        Text(positionEmoji(lane.position))
+                            .font(.system(size: 12))
+                            .frame(width: 18)
+
+                        Text(lane.allyChampion.prefix(8))
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.7))
+                            .frame(width: 70, alignment: .leading)
+
+                        Text(formatGold(lane.allyGold))
+                            .font(.system(size: 12, design: .monospaced))
+                            .foregroundStyle(Color.lolTextSecondary)
+                            .frame(width: 45, alignment: .trailing)
+
+                        Spacer()
+
+                        Text(lane.diffText)
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .foregroundStyle(lane.diff >= 0 ? Color.lolGreen : Color.lolRed)
+                            .frame(width: 50)
+
+                        Spacer()
+
+                        Text(formatGold(lane.enemyGold))
+                            .font(.system(size: 12, design: .monospaced))
+                            .foregroundStyle(Color.lolTextSecondary)
+                            .frame(width: 45, alignment: .leading)
+
+                        Text(lane.enemyChampion.prefix(8))
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.7))
+                            .frame(width: 70, alignment: .trailing)
+                    }
                 }
             }
+        }
+    }
+
+    private func formatGold(_ gold: Int) -> String {
+        if gold >= 1000 {
+            return String(format: "%.1fk", Double(gold) / 1000.0)
+        }
+        return "\(gold)"
+    }
+
+    private func diffText(_ diff: Int) -> String {
+        let sign = diff >= 0 ? "+" : ""
+        if abs(diff) >= 1000 {
+            return String(format: "%@%.1fk gold", sign, Double(diff) / 1000.0)
+        }
+        return "\(sign)\(diff) gold"
+    }
+
+    private func positionEmoji(_ pos: String) -> String {
+        switch pos {
+        case "TOP": return "🗡"
+        case "JUNGLE": return "🌿"
+        case "MIDDLE": return "⭐"
+        case "BOTTOM": return "🏹"
+        case "UTILITY": return "🛡"
+        default: return "•"
         }
     }
 }
@@ -241,8 +344,8 @@ struct SectionHeader: View {
 
     var body: some View {
         Text(title)
-            .font(.system(size: 10, weight: .medium))
-            .tracking(1)
+            .font(.system(size: 12, weight: .semibold))
+            .tracking(1.2)
             .foregroundStyle(Color.lolTextSecondary)
     }
 }

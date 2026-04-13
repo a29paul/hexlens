@@ -11,7 +11,7 @@ final class GameStateTests: XCTestCase {
     func isValidTransition(from: State, to: State) -> Bool {
         switch (from, to) {
         case (.idle, .lobby), (.idle, .idle): return true
-        case (.lobby, .champSelect), (.lobby, .idle): return true
+        case (.lobby, .champSelect), (.lobby, .loading), (.lobby, .idle): return true
         case (.champSelect, .loading), (.champSelect, .lobby), (.champSelect, .idle): return true
         case (.loading, .inGame), (.loading, .idle), (.loading, .lobby): return true
         case (.inGame, .postGame), (.inGame, .idle): return true

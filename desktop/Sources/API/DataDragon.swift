@@ -17,6 +17,8 @@ actor DataDragon {
     private let cacheDir: URL
     private var champions: [Int: ChampionInfo] = [:]
     private var summonerSpells: [Int: SummonerSpellInfo] = [:]
+    /// Ult cooldowns per champion name → [rank1, rank2, rank3]
+    private var ultCooldowns: [String: [Double]] = [:]
     private var currentVersion: String?
     private var isLoaded = false
 
@@ -68,6 +70,21 @@ actor DataDragon {
                 parseSummonerSpellData(data)
             }
 
+            // Ult cooldowns from Meraki (per-champion)
+            let ultCache = cacheDir.appendingPathComponent("\(version)-ultcooldowns.json")
+            if FileManager.default.fileExists(atPath: ultCache.path) {
+                let data = try Data(contentsOf: ultCache)
+                parseUltCooldowns(data)
+                logger.info("Loaded ult cooldowns from cache (patch \(version))")
+            } else {
+                await fetchAllUltCooldowns()
+                // Cache the result
+                if let jsonData = try? JSONSerialization.data(withJSONObject: ultCooldowns.mapValues { $0 }) {
+                    try? jsonData.write(to: ultCache)
+                }
+                logger.info("Fetched ult cooldowns for \(self.ultCooldowns.count) champions")
+            }
+
             isLoaded = true
         } catch {
             logger.error("Failed to load Data Dragon: \(error.localizedDescription)")
@@ -76,6 +93,21 @@ actor DataDragon {
 
     func championName(for id: Int) -> String {
         champions[id]?.name ?? "Champion \(id)"
+    }
+
+    /// Get ult cooldown for a champion at a specific rank (1-3).
+    /// Returns the base cooldown in seconds from Meraki data.
+    func ultCooldown(champion: String, rank: Int) -> TimeInterval {
+        guard let cds = ultCooldowns[champion], rank >= 1, rank <= cds.count else {
+            // Fallback for champions not yet loaded
+            return [120, 100, 80][min(max(rank - 1, 0), 2)]
+        }
+        return cds[rank - 1]
+    }
+
+    /// Get all cached ult cooldowns for synchronous access by GameStateManager.
+    func allUltCooldowns() -> [String: [Double]] {
+        ultCooldowns
     }
 
     func summonerSpellName(for id: Int) -> String {
@@ -144,6 +176,38 @@ actor DataDragon {
         }
 
         logger.info("Parsed \(self.summonerSpells.count) summoner spells")
+    }
+
+    /// Fetch ult cooldowns for all champions from Meraki Analytics.
+    /// Each champion has a separate JSON endpoint.
+    private func fetchAllUltCooldowns() async {
+        let champNames = champions.values.map { $0.id }
+        for champId in champNames {
+            do {
+                let data = try await fetchJSON("https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions/\(champId).json")
+                guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                      let abilities = json["abilities"] as? [String: Any],
+                      let rAbilities = abilities["R"] as? [[String: Any]],
+                      let firstR = rAbilities.first,
+                      let cooldown = firstR["cooldown"] as? [String: Any],
+                      let modifiers = cooldown["modifiers"] as? [[String: Any]],
+                      let firstMod = modifiers.first,
+                      let values = firstMod["values"] as? [Double] else { continue }
+
+                // Meraki uses champion name (display name), not id
+                let displayName = (json["name"] as? String) ?? champId
+                ultCooldowns[displayName] = values
+            } catch {
+                // Skip individual champion failures silently
+                continue
+            }
+        }
+        logger.info("Fetched ult cooldowns for \(self.ultCooldowns.count) champions")
+    }
+
+    private func parseUltCooldowns(_ data: Data) {
+        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: [Double]] else { return }
+        ultCooldowns = json
     }
 }
 

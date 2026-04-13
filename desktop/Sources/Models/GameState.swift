@@ -51,6 +51,8 @@ struct EnemySpellState: Identifiable {
     let championName: String
     var spell1: SpellCooldownState
     var spell2: SpellCooldownState
+    var ult: SpellCooldownState
+    var level: Int
 }
 
 struct SpellCooldownState {
@@ -87,6 +89,36 @@ struct AllyState: Identifiable {
     var currentGold: Int?
 }
 
+// MARK: - Gold Scoreboard
+
+struct PlayerGold: Identifiable {
+    let id: String
+    let championName: String
+    let position: String
+    let team: String
+    var itemGold: Int
+    var level: Int
+    var isDead: Bool
+}
+
+struct LaneMatchup: Identifiable {
+    let id: String  // position
+    let position: String
+    let allyChampion: String
+    let enemyChampion: String
+    var allyGold: Int
+    var enemyGold: Int
+
+    var diff: Int { allyGold - enemyGold }
+    var diffText: String {
+        let sign = diff >= 0 ? "+" : ""
+        if abs(diff) >= 1000 {
+            return String(format: "%@%.1fk", sign, Double(diff) / 1000.0)
+        }
+        return "\(sign)\(diff)"
+    }
+}
+
 // MARK: - Inhibitor Tracking
 
 struct InhibitorTimer: Identifiable {
@@ -111,3 +143,9 @@ struct InhibitorTimer: Identifiable {
 }
 
 import SwiftUI
+
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}

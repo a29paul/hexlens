@@ -25,11 +25,15 @@ class GameDetector {
     func startWatching() {
         guard !isRunning else { return }
         isRunning = true
+        // Run process detection on the main run loop timer.
+        // checkForProcess uses Process() which blocks briefly (~20ms),
+        // but this is more reliable than dispatching to a background queue.
         timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
-            // Run process detection on a background queue to avoid blocking the main thread
-            self?.backgroundQueue.async { self?.checkForProcess() }
+            self?.checkForProcess()
         }
-        backgroundQueue.async { [weak self] in self?.checkForProcess() }
+        // Check immediately on start
+        checkForProcess()
+        logger.info("GameDetector: timer scheduled, initial check complete")
     }
 
     func stopWatching() {
@@ -46,8 +50,24 @@ class GameDetector {
         wasRunning = false
     }
 
+    private func debugLog(_ msg: String) {
+        let line = "[\(Date())] [GameDetector] \(msg)\n"
+        if let data = line.data(using: .utf8) {
+            let logFile = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("hexlens-debug.log")
+            if FileManager.default.fileExists(atPath: logFile.path) {
+                let handle = try? FileHandle(forWritingTo: logFile)
+                handle?.seekToEndOfFile()
+                handle?.write(data)
+                handle?.closeFile()
+            } else {
+                try? data.write(to: logFile)
+            }
+        }
+    }
+
     private func checkForProcess() {
         let isLolRunning = isLeagueClientRunning()
+        debugLog("checkForProcess: isLolRunning=\(isLolRunning), wasRunning=\(wasRunning)")
 
         if isLolRunning && !wasRunning {
             logger.info("LoL client detected")
@@ -65,21 +85,25 @@ class GameDetector {
     }
 
     private func isLeagueClientRunning() -> Bool {
+        // Use pgrep instead of ps -A to avoid pipe buffer deadlock.
+        // ps -A output can exceed 64KB (Riot's processes have huge args),
+        // causing waitUntilExit() to deadlock when the pipe buffer fills.
         let pipe = Pipe()
         let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/bin/ps")
-        process.arguments = ["-A"]
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/pgrep")
+        process.arguments = ["-f", "LeagueClient"]
         process.standardOutput = pipe
         process.standardError = FileHandle.nullDevice
 
         do {
             try process.run()
-            process.waitUntilExit()
+            // Read data BEFORE waitUntilExit to prevent pipe buffer deadlock
             let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            let output = String(data: data, encoding: .utf8) ?? ""
-            return output.contains("LeagueClientUx") || output.contains("LeagueClient")
+            process.waitUntilExit()
+            // pgrep exits 0 if matches found, 1 if not
+            return process.terminationStatus == 0 && !data.isEmpty
         } catch {
-            logger.error("Failed to run ps: \(error.localizedDescription)")
+            logger.error("Failed to run pgrep: \(error.localizedDescription)")
             return false
         }
     }

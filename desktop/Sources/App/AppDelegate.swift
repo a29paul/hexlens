@@ -8,16 +8,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var onboardingPopover: NSPopover?
     private let gameStateManager = GameStateManager()
 
+    private func debugLog(_ msg: String) {
+        let line = "[\(Date())] \(msg)\n"
+        if let data = line.data(using: .utf8) {
+            let logFile = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("hexlens-debug.log")
+            if FileManager.default.fileExists(atPath: logFile.path) {
+                let handle = try? FileHandle(forWritingTo: logFile)
+                handle?.seekToEndOfFile()
+                handle?.write(data)
+                handle?.closeFile()
+            } else {
+                try? data.write(to: logFile)
+            }
+        }
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
+        debugLog("applicationDidFinishLaunching")
         // Background app: no Dock icon, no Cmd-Tab entry
         NSApp.setActivationPolicy(.accessory)
 
         setupMenuBar()
+        debugLog("menu bar set up")
         setupOverlay()
+        debugLog("overlay set up")
         setupNotifications()
+        debugLog("notifications set up")
         showOnboardingIfNeeded()
+        debugLog("onboarding checked")
 
         gameStateManager.start()
+        debugLog("gameStateManager started")
     }
 
     private func showOnboardingIfNeeded() {

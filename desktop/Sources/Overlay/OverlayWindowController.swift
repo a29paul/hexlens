@@ -25,7 +25,7 @@ class OverlayWindowController {
         let hostingView = NSHostingView(rootView: overlayView)
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 280, height: 400),
+            contentRect: NSRect(x: 0, y: 0, width: 420, height: 750),
             styleMask: .borderless,
             backing: .buffered,
             defer: false
@@ -39,7 +39,11 @@ class OverlayWindowController {
         // so NSWindow can appear on top with the right level + collection behavior.
         window.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
         window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary, .ignoresCycle]
-        window.ignoresMouseEvents = true
+        // Overlay is interactive (clickable spell badges). The overlay is small
+        // and positioned at the screen edge, so it doesn't interfere with gameplay.
+        // Same approach as Porofessor/Blitz: click the spell icon to start cooldown.
+        window.ignoresMouseEvents = false
+        window.acceptsMouseMovedEvents = true
         window.contentView = hostingView
         // Prevent the overlay from being hidden when the app is deactivated
         window.hidesOnDeactivate = false
@@ -47,8 +51,8 @@ class OverlayWindowController {
         // Position: top-right of main screen, inset 20px
         if let screen = NSScreen.main {
             let screenFrame = screen.visibleFrame
-            let x = screenFrame.maxX - 280 - 20
-            let y = screenFrame.maxY - 400 - 20
+            let x = screenFrame.maxX - 420 - 20
+            let y = screenFrame.maxY - 750 - 20
             window.setFrameOrigin(NSPoint(x: x, y: y))
         }
 
@@ -79,15 +83,16 @@ class OverlayWindowController {
         })
     }
 
+    /// Toggle drag-to-reposition mode. When active, dragging anywhere on the
+    /// overlay moves it. When inactive, only spell badge clicks are intercepted.
     func toggleInteractiveMode() {
         isInInteractiveMode.toggle()
-        window?.ignoresMouseEvents = !isInInteractiveMode
 
         if isInInteractiveMode {
             window?.isMovableByWindowBackground = true
         } else {
             window?.isMovableByWindowBackground = false
-            // Save position when exiting interactive mode
+            // Save position when exiting drag mode
             if let frame = window?.frame {
                 UserDefaults.standard.set(frame.origin.x, forKey: "overlayX")
                 UserDefaults.standard.set(frame.origin.y, forKey: "overlayY")
