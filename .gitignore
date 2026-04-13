@@ -1,0 +1,15 @@
+# Swift
+.build/
+.swiftpm/
+*.xcodeproj/
+DerivedData/
+
+# macOS
+.DS_Store
+
+# Conductor
+.context/
+
+# Node (future web framework)
+node_modules/
+.gstack/
