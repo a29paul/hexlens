@@ -31,7 +31,9 @@ class TimerEngine {
                 logger.info("Baron killed at \(event.EventTime), respawns in 6 min")
 
             case "HeraldKill":
-                setTimer(id: "baron", respawnSeconds: 480, gameTime: gameTime, eventTime: event.EventTime)
+                // Herald has its own timer slot, not Baron's. Herald respawns once; Baron spawns at 20min.
+                // Don't overwrite baron timer with herald data.
+                break
 
             default:
                 break

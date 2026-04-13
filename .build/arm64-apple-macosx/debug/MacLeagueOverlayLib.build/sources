@@ -1,0 +1,17 @@
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/DataDragon.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LCUClient.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LiveGameClient.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/PatchDataService.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/AppDelegate.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/OnboardingView.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/SettingsView.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/ChampSelect/ChampSelectWindow.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/ChampSelectData.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/GameState.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/LiveGameData.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayView.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayWindowController.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameDetector.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameStateManager.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/SpellTracker.swift
+/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/TimerEngine.swift

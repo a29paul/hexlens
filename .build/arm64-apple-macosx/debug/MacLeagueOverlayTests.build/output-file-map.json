@@ -1,0 +1,54 @@
+{
+  "": {
+    "swift-dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/master.swiftdeps"
+  },
+  "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/CSBenchmarkTests.swift": {
+    "dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/CSBenchmarkTests.d",
+    "object": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/CSBenchmarkTests.swift.o",
+    "swiftmodule": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/CSBenchmarkTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/CSBenchmarkTests.swiftdeps",
+    "diagnostics": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/CSBenchmarkTests.dia"
+  },
+  "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/ChampSelectDataTests.swift": {
+    "dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/ChampSelectDataTests.d",
+    "object": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/ChampSelectDataTests.swift.o",
+    "swiftmodule": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/ChampSelectDataTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/ChampSelectDataTests.swiftdeps",
+    "diagnostics": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/ChampSelectDataTests.dia"
+  },
+  "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/GameStateTests.swift": {
+    "dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/GameStateTests.d",
+    "object": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/GameStateTests.swift.o",
+    "swiftmodule": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/GameStateTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/GameStateTests.swiftdeps",
+    "diagnostics": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/GameStateTests.dia"
+  },
+  "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LiveGameDataDecodingTests.swift": {
+    "dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LiveGameDataDecodingTests.d",
+    "object": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LiveGameDataDecodingTests.swift.o",
+    "swiftmodule": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LiveGameDataDecodingTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LiveGameDataDecodingTests.swiftdeps",
+    "diagnostics": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LiveGameDataDecodingTests.dia"
+  },
+  "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LockfileParsingTests.swift": {
+    "dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LockfileParsingTests.d",
+    "object": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LockfileParsingTests.swift.o",
+    "swiftmodule": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LockfileParsingTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LockfileParsingTests.swiftdeps",
+    "diagnostics": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LockfileParsingTests.dia"
+  },
+  "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/SpellCooldownTests.swift": {
+    "dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/SpellCooldownTests.d",
+    "object": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/SpellCooldownTests.swift.o",
+    "swiftmodule": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/SpellCooldownTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/SpellCooldownTests.swiftdeps",
+    "diagnostics": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/SpellCooldownTests.dia"
+  },
+  "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/TimerEngineTests.swift": {
+    "dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/TimerEngineTests.d",
+    "object": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/TimerEngineTests.swift.o",
+    "swiftmodule": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/TimerEngineTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/TimerEngineTests.swiftdeps",
+    "diagnostics": "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/TimerEngineTests.dia"
+  }
+}

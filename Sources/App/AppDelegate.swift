@@ -145,7 +145,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func appDidResignActive(_ notification: Notification) {
         // Hide overlay immediately when LoL loses focus
-        // This fires instantly, not after the animation
+        overlayController?.hideOverlay()
     }
 
     func updateMenuBarStatus(_ status: String) {

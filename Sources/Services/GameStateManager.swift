@@ -168,14 +168,16 @@ class GameStateManager: ObservableObject {
 
     private func handlePollFailure(_ error: Error) {
         consecutiveFailures += 1
+        logger.warning("Live game poll failed (\(self.consecutiveFailures)x): \(error.localizedDescription)")
         if consecutiveFailures >= 3 {
             backoffInterval = min(backoffInterval * 2, 10.0)
+            // Invalidate existing timer before creating a new one to prevent stacking
             pollTimer?.invalidate()
+            pollTimer = nil
             pollTimer = Timer.scheduledTimer(withTimeInterval: backoffInterval, repeats: true) { [weak self] _ in
                 self?.pollLiveGame()
             }
         }
-        logger.warning("Live game poll failed (\(self.consecutiveFailures)x): \(error.localizedDescription)")
     }
 
     // MARK: - Data Processing
@@ -188,10 +190,8 @@ class GameStateManager: ObservableObject {
         // CS + benchmark
         currentCS = me?.scores.creepScore ?? 0
         let gameMinutes = Int(data.gameData.gameTime / 60)
-        if gameMinutes > 0 {
-            let benchmark = PatchDataService.shared.getCSBenchmark(role: playerRole, gameTimeMinutes: gameMinutes)
-            csBenchmarkDiff = currentCS - Int(benchmark)
-        }
+        let benchmark = PatchDataService.shared.getCSBenchmark(role: playerRole, gameTimeMinutes: max(gameMinutes, 1))
+        csBenchmarkDiff = currentCS - Int(benchmark)
 
         // Role detection
         if let position = me?.position {
@@ -202,8 +202,9 @@ class GameStateManager: ObservableObject {
         timerEngine?.processEvents(data.events.Events, gameTime: data.gameData.gameTime)
         jungleTimers = timerEngine?.timers ?? GameStateManager.defaultTimers()
 
-        // Build enemy spell states
-        let enemies = data.allPlayers.filter { $0.team != (me?.team ?? "") }
+        // Build enemy spell states — only if we know our team
+        guard let myTeam = me?.team, !myTeam.isEmpty else { return }
+        let enemies = data.allPlayers.filter { $0.team != myTeam }
         enemySpells = enemies.prefix(5).map { enemy in
             let existing = self.enemySpells.first { $0.championName == enemy.championName }
             return EnemySpellState(

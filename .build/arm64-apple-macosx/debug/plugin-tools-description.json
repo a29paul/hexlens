@@ -1,0 +1,1675 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.xctest/Contents/MacOS/MacLeagueOverlayPackageTests",
+      "packagePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila",
+      "productName" : "MacLeagueOverlayPackageTests"
+    }
+  ],
+  "copyCommands" : {
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream_Starscream.bundle/PrivacyInfo.xcprivacy" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/PrivacyInfo.xcprivacy"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream_Starscream.bundle/PrivacyInfo.xcprivacy"
+        }
+      ]
+    }
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.MacLeagueOverlay-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/sources",
+      "importPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/DataDragon.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LCUClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LiveGameClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/PatchDataService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/AppDelegate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/MacLeagueOverlayApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/OnboardingView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/SettingsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/ChampSelect/ChampSelectWindow.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/ChampSelectData.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/GameState.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/LiveGameData.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayWindowController.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameDetector.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameStateManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/SpellTracker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/TimerEngine.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/Starscream.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "MacLeagueOverlay",
+      "moduleOutputPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/MacLeagueOverlay.swiftmodule",
+      "objects" : [
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/DataDragon.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LCUClient.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LiveGameClient.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/PatchDataService.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/AppDelegate.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/MacLeagueOverlayApp.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OnboardingView.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/SettingsView.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/ChampSelectWindow.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/ChampSelectData.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameState.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LiveGameData.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OverlayView.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OverlayWindowController.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameDetector.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameStateManager.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/SpellTracker.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/TimerEngine.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j16",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "MacLeagueOverlay_main",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "manila"
+      ],
+      "outputFileMapPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/DataDragon.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LCUClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LiveGameClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/PatchDataService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/AppDelegate.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/MacLeagueOverlayApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OnboardingView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/SettingsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/ChampSelectWindow.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/ChampSelectData.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameState.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LiveGameData.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OverlayView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OverlayWindowController.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameDetector.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameStateManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/SpellTracker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/TimerEngine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/MacLeagueOverlay.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/DataDragon.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LCUClient.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LiveGameClient.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/PatchDataService.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/AppDelegate.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/MacLeagueOverlayApp.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/OnboardingView.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/SettingsView.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/ChampSelect/ChampSelectWindow.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/ChampSelectData.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/GameState.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/LiveGameData.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayView.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayWindowController.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameDetector.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameStateManager.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/SpellTracker.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/TimerEngine.swift"
+      ],
+      "tempsPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.MacLeagueOverlayPackageTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/sources",
+      "importPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/MacLeagueOverlayTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "MacLeagueOverlayPackageTests",
+      "moduleOutputPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/MacLeagueOverlayPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j16",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/include/MacLeagueOverlayPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "manila"
+      ],
+      "outputFileMapPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/MacLeagueOverlayPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.MacLeagueOverlayTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/sources",
+      "importPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/CSBenchmarkTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/ChampSelectDataTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/GameStateTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LiveGameDataDecodingTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LockfileParsingTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/SpellCooldownTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/TimerEngineTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "MacLeagueOverlayTests",
+      "moduleOutputPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/MacLeagueOverlayTests.swiftmodule",
+      "objects" : [
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/CSBenchmarkTests.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/ChampSelectDataTests.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/GameStateTests.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LiveGameDataDecodingTests.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LockfileParsingTests.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/SpellCooldownTests.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/TimerEngineTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j16",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "manila"
+      ],
+      "outputFileMapPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/CSBenchmarkTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/ChampSelectDataTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/GameStateTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LiveGameDataDecodingTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LockfileParsingTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/SpellCooldownTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/TimerEngineTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/MacLeagueOverlayTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/CSBenchmarkTests.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/ChampSelectDataTests.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/GameStateTests.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LiveGameDataDecodingTests.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LockfileParsingTests.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/SpellCooldownTests.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/TimerEngineTests.swift"
+      ],
+      "tempsPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.Starscream-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/sources",
+      "importPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Compression/Compression.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Compression/WSCompression.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/DataBytes/Data+Extensions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/Engine.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/NativeEngine.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/WSEngine.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPServerHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FrameCollector.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/Framer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/HTTPHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/StringHTTPHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Security/FoundationSecurity.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Security/Security.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Server/Server.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Server/WebSocketServer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Starscream/WebSocket.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/FoundationTransport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/TCPTransport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/Transport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/DerivedSources/resource_bundle_accessor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<Starscream-arm64-apple-macosx26.0-debug.module-resources>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "Starscream",
+      "moduleOutputPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/Starscream.swiftmodule",
+      "objects" : [
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Compression.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WSCompression.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Data+Extensions.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Engine.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/NativeEngine.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WSEngine.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationHTTPHandler.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationHTTPServerHandler.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FrameCollector.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Framer.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/HTTPHandler.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/StringHTTPHandler.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationSecurity.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Security.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Server.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WebSocketServer.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WebSocket.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationTransport.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/TCPTransport.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Transport.swift.o",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/resource_bundle_accessor.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j16",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+        "-module-cache-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/include/Starscream-Swift.h",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-suppress-warnings"
+      ],
+      "outputFileMapPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Compression.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WSCompression.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Data+Extensions.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Engine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/NativeEngine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WSEngine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationHTTPHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationHTTPServerHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FrameCollector.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Framer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/HTTPHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/StringHTTPHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationSecurity.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Security.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Server.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WebSocketServer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WebSocket.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationTransport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/TCPTransport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Transport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/resource_bundle_accessor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules/Starscream.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Compression/Compression.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Compression/WSCompression.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/DataBytes/Data+Extensions.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/Engine.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/NativeEngine.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/WSEngine.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPHandler.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPServerHandler.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FrameCollector.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/Framer.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/HTTPHandler.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/StringHTTPHandler.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Security/FoundationSecurity.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Security/Security.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Server/Server.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Server/WebSocketServer.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Starscream/WebSocket.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/FoundationTransport.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/TCPTransport.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/Transport.swift",
+        "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/DerivedSources/resource_bundle_accessor.swift"
+      ],
+      "tempsPath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "MacLeagueOverlay" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MacLeagueOverlay",
+      "-package-name",
+      "manila",
+      "-c",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/DataDragon.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LCUClient.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LiveGameClient.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/PatchDataService.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/AppDelegate.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/MacLeagueOverlayApp.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/OnboardingView.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/SettingsView.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/ChampSelect/ChampSelectWindow.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/ChampSelectData.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/GameState.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/LiveGameData.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayView.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayWindowController.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameDetector.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameStateManager.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/SpellTracker.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/TimerEngine.swift",
+      "-I",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j16",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "MacLeagueOverlay_main",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "manila",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "MacLeagueOverlayPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MacLeagueOverlayPackageTests",
+      "-package-name",
+      "manila",
+      "-c",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j16",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/include/MacLeagueOverlayPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "manila",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "MacLeagueOverlayTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MacLeagueOverlayTests",
+      "-package-name",
+      "manila",
+      "-c",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/CSBenchmarkTests.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/ChampSelectDataTests.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/GameStateTests.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LiveGameDataDecodingTests.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LockfileParsingTests.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/SpellCooldownTests.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/TimerEngineTests.swift",
+      "-I",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j16",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "manila",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "Starscream" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "Starscream",
+      "-c",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Compression/Compression.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Compression/WSCompression.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/DataBytes/Data+Extensions.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/Engine.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/NativeEngine.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/WSEngine.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPHandler.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPServerHandler.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FrameCollector.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/Framer.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/HTTPHandler.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/StringHTTPHandler.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Security/FoundationSecurity.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Security/Security.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Server/Server.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Server/WebSocketServer.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Starscream/WebSocket.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/FoundationTransport.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/TCPTransport.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/Transport.swift",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/DerivedSources/resource_bundle_accessor.swift",
+      "-I",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j16",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+      "-module-cache-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/include/Starscream-Swift.h",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-suppress-warnings",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "MacLeagueOverlay" : [
+      "Starscream"
+    ],
+    "MacLeagueOverlayPackageTests" : [
+      "MacLeagueOverlayTests"
+    ],
+    "MacLeagueOverlayTests" : [
+
+    ],
+    "Starscream" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay-entitlement.plist" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<entitlement-plist>"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<com.apple.security.get-task-allow>"
+        }
+      ],
+      "outputFilePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay-entitlement.plist"
+    },
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/DataDragon.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LCUClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/LiveGameClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/API/PatchDataService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/AppDelegate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/MacLeagueOverlayApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/OnboardingView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/App/SettingsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/ChampSelect/ChampSelectWindow.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/ChampSelectData.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/GameState.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Models/LiveGameData.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Overlay/OverlayWindowController.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameDetector.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/GameStateManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/SpellTracker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Sources/Services/TimerEngine.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/sources"
+    },
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/AppDelegate.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/ChampSelectData.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/ChampSelectWindow.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/DataDragon.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameDetector.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameState.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/GameStateManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LCUClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LiveGameClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/LiveGameData.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/MacLeagueOverlayApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OnboardingView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OverlayView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/OverlayWindowController.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/PatchDataService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/SettingsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/SpellTracker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.build/TimerEngine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Compression.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Data+Extensions.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Engine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationHTTPHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationHTTPServerHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationSecurity.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FoundationTransport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/FrameCollector.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Framer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/HTTPHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/NativeEngine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Security.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Server.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/StringHTTPHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/TCPTransport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/Transport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WSCompression.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WSEngine.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WebSocket.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/WebSocketServer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/resource_bundle_accessor.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlay.product/Objects.LinkFileList"
+    },
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/sources"
+    },
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/CSBenchmarkTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/ChampSelectDataTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/GameStateTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LiveGameDataDecodingTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/LockfileParsingTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/SpellCooldownTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/TimerEngineTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/CSBenchmarkTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/ChampSelectDataTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/GameStateTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LiveGameDataDecodingTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/LockfileParsingTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/SpellCooldownTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/Tests/TimerEngineTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/MacLeagueOverlayTests.build/sources"
+    },
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Compression/Compression.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Compression/WSCompression.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/DataBytes/Data+Extensions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/Engine.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/NativeEngine.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Engine/WSEngine.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPServerHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/FrameCollector.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/Framer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/HTTPHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Framer/StringHTTPHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Security/FoundationSecurity.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Security/Security.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Server/Server.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Server/WebSocketServer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Starscream/WebSocket.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/FoundationTransport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/TCPTransport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/checkouts/Starscream/Sources/Transport/Transport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/DerivedSources/resource_bundle_accessor.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/Starscream.build/sources"
+    },
+    "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/aaronpaul/conductor/workspaces/mac-league-overlay/manila/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

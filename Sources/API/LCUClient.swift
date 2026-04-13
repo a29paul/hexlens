@@ -25,6 +25,10 @@ class LCUClient: NSObject {
     private var reconnectAttempts = 0
     private let maxReconnectAttempts = 10
 
+    private lazy var lcuHTTPSession: URLSession = {
+        URLSession(configuration: .ephemeral, delegate: LCUCertDelegate(expectedPort: lockfileData.port), delegateQueue: nil)
+    }()
+
     var onChampSelect: ((ChampSelectSession) -> Void)?
     var onChampSelectEnd: (() -> Void)?
     var onDodge: (() -> Void)?
@@ -88,9 +92,8 @@ class LCUClient: NSObject {
             return
         }
 
-        // Use a session that trusts the LCU's self-signed cert
-        let session = URLSession(configuration: .ephemeral, delegate: LCUCertDelegate(), delegateQueue: nil)
-        session.dataTask(with: request) { _, response, error in
+        // Reuse a single session that trusts the LCU's self-signed cert
+        lcuHTTPSession.dataTask(with: request) { _, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -187,14 +190,22 @@ extension LCUClient: WebSocketDelegate {
     }
 }
 
-/// SSL cert delegate for LCU HTTPS calls (localhost only)
+/// SSL cert delegate for LCU HTTPS calls (localhost + specific port only)
 class LCUCertDelegate: NSObject, URLSessionDelegate {
+    private let expectedPort: Int
+
+    init(expectedPort: Int) {
+        self.expectedPort = expectedPort
+        super.init()
+    }
+
     func urlSession(
         _ session: URLSession,
         didReceive challenge: URLAuthenticationChallenge,
         completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
     ) {
         guard challenge.protectionSpace.host == "127.0.0.1",
+              challenge.protectionSpace.port == expectedPort,
               challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust,
               let serverTrust = challenge.protectionSpace.serverTrust else {
             completionHandler(.performDefaultHandling, nil)
