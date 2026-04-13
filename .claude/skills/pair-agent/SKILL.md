@@ -1,0 +1,1 @@
+/Users/aaronpaul/Desktop/mac-league-overlay/.claude/skills/gstack/pair-agent/SKILL.md

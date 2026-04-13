@@ -1,0 +1,1 @@
+/Users/aaronpaul/Desktop/mac-league-overlay/.claude/skills/gstack/plan-ceo-review/SKILL.md

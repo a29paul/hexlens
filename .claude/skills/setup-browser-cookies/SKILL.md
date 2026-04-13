@@ -1,0 +1,1 @@
+/Users/aaronpaul/Desktop/mac-league-overlay/.claude/skills/gstack/setup-browser-cookies/SKILL.md
