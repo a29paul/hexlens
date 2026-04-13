@@ -2,7 +2,7 @@
 
 The first League of Legends overlay for macOS.
 
-Everything Blitz and Porofessor do. On Mac. For free. No ads, ever.
+Everything Blitz and Porofessor do. On Mac. For free.
 
 [![Download](https://img.shields.io/badge/Download-Hexlens_for_Mac-c8aa6e?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/a29paul/hexlens/releases/latest)
 [![Tests](https://github.com/a29paul/hexlens/actions/workflows/test.yml/badge.svg)](https://github.com/a29paul/hexlens/actions/workflows/test.yml)

@@ -14,16 +14,9 @@ import {
   Eye,
   MousePointerClick,
   Keyboard,
-  Ban,
 } from "lucide-react";
 
 const features = [
-  {
-    icon: Ban,
-    title: "No Ads. Ever.",
-    description:
-      "Free and open source. No ads, no premium tier, no Overwolf pop-ups. Riot banned overlay ads in 2025. We never had them.",
-  },
   {
     icon: Zap,
     title: "Native Swift",
