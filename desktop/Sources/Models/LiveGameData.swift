@@ -28,8 +28,10 @@ struct LivePlayer: Codable {
     let championName: String
     let isBot: Bool
     let isDead: Bool
+    let items: [PlayerItem]?
     let level: Int
     let position: String
+    let respawnTimer: Double?
     let scores: PlayerScores
     let skinID: Int
     let summonerName: String
@@ -54,6 +56,13 @@ struct LivePlayer: Codable {
             let rawDisplayName: String?
         }
     }
+
+    struct PlayerItem: Codable {
+        let itemID: Int
+        let displayName: String
+        let count: Int
+        let price: Int?
+    }
 }
 
 struct LiveEvents: Codable {
@@ -65,6 +74,8 @@ struct LiveEvents: Codable {
         let EventTime: Double
         let KillerName: String?
         let DragonType: String?
+        let InhibKilled: String?
+        let Assisters: [String]?
     }
 }
 

@@ -15,6 +15,9 @@ class GameStateManager: ObservableObject {
     @Published var playerRole: PlayerRole = .unknown
     @Published var jungleTimers: [JungleTimer] = GameStateManager.defaultTimers()
     @Published var enemySpells: [EnemySpellState] = []
+    @Published var allies: [AllyState] = []
+    @Published var inhibitorTimers: [InhibitorTimer] = []
+    @Published var goldLead: Int = 0  // positive = our team ahead
     @Published var champSelectSession: ChampSelectSession?
     @Published var activePlayerName: String = ""
 
@@ -244,6 +247,59 @@ class GameStateManager: ObservableObject {
                 )
             )
         }
+
+        // Ally tracking (teammates excluding self)
+        let allyPlayers = data.allPlayers.filter { $0.team == myTeam && $0.summonerName != activePlayerName }
+        allies = allyPlayers.map { ally in
+            AllyState(
+                id: ally.summonerName,
+                championName: ally.championName,
+                summonerName: ally.summonerName,
+                level: ally.level,
+                isDead: ally.isDead,
+                respawnTimer: ally.respawnTimer,
+                ultReady: ally.level >= 6 && !ally.isDead,
+                spell1Name: ally.summonerSpells.summonerSpellOne.displayName,
+                spell2Name: ally.summonerSpells.summonerSpellTwo.displayName
+            )
+        }
+
+        // Gold lead (our team total gold vs enemy team total gold)
+        let allyGold = data.allPlayers.filter { $0.team == myTeam }
+            .reduce(0) { $0 + $1.scores.kills * 300 + $1.scores.assists * 150 + $1.scores.creepScore * 20 }
+        let enemyGold = data.allPlayers.filter { $0.team != myTeam }
+            .reduce(0) { $0 + $1.scores.kills * 300 + $1.scores.assists * 150 + $1.scores.creepScore * 20 }
+        goldLead = allyGold - enemyGold
+
+        // Inhibitor timers from events
+        processInhibitorEvents(data.events.Events, gameTime: data.gameData.gameTime)
+    }
+
+    private func processInhibitorEvents(_ events: [LiveEvents.LiveEvent], gameTime: Double) {
+        for event in events {
+            guard event.EventName == "InhibKilled" else { continue }
+            // Inhibitors respawn after 5 minutes (300s)
+            let timeSinceEvent = gameTime - event.EventTime
+            let remaining = 300 - timeSinceEvent
+            if remaining > 0 {
+                let inhibId = event.InhibKilled ?? "unknown"
+                let lane = inhibId.contains("Top") ? "top" : inhibId.contains("Bot") ? "bot" : "mid"
+                let team = inhibId.contains("T1") ? "ORDER" : "CHAOS"
+
+                if let idx = inhibitorTimers.firstIndex(where: { $0.id == inhibId }) {
+                    inhibitorTimers[idx].respawnTime = Date().addingTimeInterval(remaining)
+                } else {
+                    inhibitorTimers.append(InhibitorTimer(
+                        id: inhibId,
+                        lane: lane,
+                        team: team,
+                        respawnTime: Date().addingTimeInterval(remaining)
+                    ))
+                }
+            }
+        }
+        // Remove expired timers
+        inhibitorTimers.removeAll { $0.isAlive }
     }
 
     // MARK: - Spell Tracking
@@ -288,6 +344,9 @@ class GameStateManager: ObservableObject {
         csBenchmarkDiff = 0
         playerRole = .unknown
         enemySpells = []
+        allies = []
+        inhibitorTimers = []
+        goldLead = 0
         jungleTimers = GameStateManager.defaultTimers()
         champSelectSession = nil
         consecutiveFailures = 0

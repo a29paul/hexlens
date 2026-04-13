@@ -10,10 +10,17 @@ struct OverlayView: View {
             CSTrackerSection(
                 currentCS: gameStateManager.currentCS,
                 csDiff: gameStateManager.csBenchmarkDiff,
-                role: gameStateManager.playerRole
+                role: gameStateManager.playerRole,
+                goldLead: gameStateManager.goldLead
             )
 
+            AllyTrackerSection(allies: gameStateManager.allies)
+
             JungleTimersSection(timers: gameStateManager.jungleTimers)
+
+            if !gameStateManager.inhibitorTimers.isEmpty {
+                InhibitorTimerSection(timers: gameStateManager.inhibitorTimers)
+            }
 
             SpellTrackerSection(spells: gameStateManager.enemySpells)
         }
@@ -36,6 +43,7 @@ struct CSTrackerSection: View {
     let currentCS: Int
     let csDiff: Int
     let role: PlayerRole
+    let goldLead: Int
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -48,9 +56,15 @@ struct CSTrackerSection: View {
 
                 Spacer()
 
-                Text(csDiffText)
-                    .font(.system(size: 13, weight: .semibold, design: .monospaced))
-                    .foregroundStyle(csDiff >= 0 ? Color.lolGreen : Color.lolRed)
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(csDiffText)
+                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                        .foregroundStyle(csDiff >= 0 ? Color.lolGreen : Color.lolRed)
+
+                    Text(goldLeadText)
+                        .font(.system(size: 10, weight: .medium, design: .monospaced))
+                        .foregroundStyle(goldLead >= 0 ? Color.lolGold : Color.lolRed)
+                }
             }
         }
     }
@@ -58,6 +72,12 @@ struct CSTrackerSection: View {
     private var csDiffText: String {
         let sign = csDiff >= 0 ? "+" : ""
         return "\(sign)\(csDiff) vs avg"
+    }
+
+    private var goldLeadText: String {
+        let sign = goldLead >= 0 ? "+" : ""
+        let formatted = abs(goldLead) >= 1000 ? String(format: "%@%.1fk", sign, Double(goldLead) / 1000.0) : "\(sign)\(goldLead)"
+        return "\(formatted) gold"
     }
 }
 
@@ -135,6 +155,82 @@ struct SpellBadge: View {
                     .fill(spell.isReady ? Color.lolGreen : Color(white: 0.2))
             )
             .foregroundStyle(spell.isReady ? .black : Color.lolRed)
+    }
+}
+
+// MARK: - Ally Tracker
+
+struct AllyTrackerSection: View {
+    let allies: [AllyState]
+
+    var body: some View {
+        if !allies.isEmpty {
+            VStack(alignment: .leading, spacing: 6) {
+                SectionHeader(title: "TEAM")
+
+                ForEach(allies) { ally in
+                    HStack(spacing: 6) {
+                        // Champion name
+                        Text(ally.championName.prefix(8))
+                            .font(.system(size: 11))
+                            .foregroundStyle(ally.isDead ? Color.lolRed.opacity(0.5) : Color.lolTextSecondary)
+                            .frame(width: 60, alignment: .leading)
+
+                        // Ult indicator
+                        Text(ally.ultReady ? "R" : "·")
+                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .frame(width: 16, height: 16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 3)
+                                    .fill(ally.ultReady ? Color.lolGreen.opacity(0.8) : Color(white: 0.15))
+                            )
+                            .foregroundStyle(ally.ultReady ? .black : Color(white: 0.3))
+
+                        // Level
+                        Text("Lv\(ally.level)")
+                            .font(.system(size: 10, design: .monospaced))
+                            .foregroundStyle(Color.lolTextSecondary)
+
+                        Spacer()
+
+                        // Dead indicator
+                        if ally.isDead {
+                            Text("DEAD")
+                                .font(.system(size: 9, weight: .semibold))
+                                .foregroundStyle(Color.lolRed)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Inhibitor Timers
+
+struct InhibitorTimerSection: View {
+    let timers: [InhibitorTimer]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            SectionHeader(title: "INHIBITORS")
+
+            ForEach(timers) { timer in
+                HStack {
+                    Text("🏛")
+                        .font(.system(size: 12))
+                    Text("\(timer.lane.capitalized)")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color.lolTextSecondary)
+
+                    Spacer()
+
+                    Text(timer.displayValue)
+                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                        .foregroundStyle(Color.lolRed)
+                }
+            }
+        }
     }
 }
 

@@ -72,4 +72,42 @@ struct SpellCooldownState {
     }
 }
 
+// MARK: - Ally Tracking
+
+struct AllyState: Identifiable {
+    let id: String
+    let championName: String
+    let summonerName: String
+    var level: Int
+    var isDead: Bool
+    var respawnTimer: Double?
+    var ultReady: Bool  // estimated from level (ult at 6+)
+    var spell1Name: String
+    var spell2Name: String
+    var currentGold: Int?
+}
+
+// MARK: - Inhibitor Tracking
+
+struct InhibitorTimer: Identifiable {
+    let id: String
+    let lane: String  // "top", "mid", "bot"
+    let team: String  // "ORDER" or "CHAOS"
+    var respawnTime: Date?
+
+    var displayValue: String {
+        guard let respawn = respawnTime else { return "DOWN" }
+        let remaining = respawn.timeIntervalSinceNow
+        if remaining <= 0 { return "UP" }
+        let mins = Int(remaining) / 60
+        let secs = Int(remaining) % 60
+        return String(format: "%d:%02d", mins, secs)
+    }
+
+    var isAlive: Bool {
+        guard let respawn = respawnTime else { return false }
+        return Date() >= respawn
+    }
+}
+
 import SwiftUI
